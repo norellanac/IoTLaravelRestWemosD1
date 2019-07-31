@@ -13,8 +13,8 @@ class RecordsController extends Controller
      */
     public function index()
     {
-        //
-        $records=Record::where('id','>',150)->get();
+        //$records=Record::where('id','>',150)->get();
+        $records=Record::all();
         return $records;
     }
 
