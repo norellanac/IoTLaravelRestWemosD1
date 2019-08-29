@@ -15,7 +15,7 @@ class RecordsController extends Controller
     {
         //$records=Record::where('id','>',150)->get();
         $records=Record::all();
-        return $records;
+        return view ('records.index', [ 'records' => $records]);
     }
 
     /**
@@ -26,6 +26,9 @@ class RecordsController extends Controller
     public function create()
     {
         //
+        $last=Record::where('id','>', 0)->orderBy('created_at', 'desc')->limit(1)->get();
+        //dd($records);
+        return view ('records.create', ['last'=>$last]);
     }
 
     /**
