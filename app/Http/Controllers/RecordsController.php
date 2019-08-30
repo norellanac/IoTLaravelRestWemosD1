@@ -26,7 +26,7 @@ class RecordsController extends Controller
     public function create()
     {
         //
-        $last=Record::where('id','>', 0)->orderBy('created_at', 'desc')->limit(1)->get();
+        $last=Record::where('user_id','=', auth()->user()->id)->orderBy('id', 'desc')->limit(1)->get();
         //dd($records);
         return view ('records.create', ['last'=>$last]);
     }
@@ -61,6 +61,11 @@ class RecordsController extends Controller
     public function show($id)
     {
         //
+        //dd(auth()->user()->id);
+        $records=Record::where('user_id','=', auth()->user()->id )->where('device', '=', $id)->orderBy('created_at', 'desc')->limit(1)->get();
+        //$last=Record::where('id','>', 0)->orderBy('created_at', 'desc')->limit(1)->get();
+        //dd($records);
+        return view ('records.show', ['records'=>$records]);
     }
 
     /**

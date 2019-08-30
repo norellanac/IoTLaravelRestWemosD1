@@ -22,8 +22,10 @@ class CreateArduinoRecordsTable extends Migration
             $table->double('number2', 8, 2)->nullable();
             $table->double('number3', 8, 2)->nullable();
             $table->integer('device');
-            $table->integer('user_id');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
+            $table->foreign('user_id')
+                  ->references('id')->on('users');
         });
     }
 

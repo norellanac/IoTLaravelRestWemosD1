@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Record;
-class RecordsController extends Controller
+
+class ApiRecordsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,6 +14,7 @@ class RecordsController extends Controller
      */
     public function index()
     {
+        //
         //$records=Record::where('id','>',150)->get();
         $records=Record::all();
         return $records;
@@ -38,15 +40,16 @@ class RecordsController extends Controller
     {
         //
         $record= new Record;
-        $record->string1=$request->string1;
-        $record->string2=$request->string2;
-        $record->string3=$request->string3;
-        $record->number1=$request->number1;
-        $record->number2=$request->number2;
-        $record->number3=$request->number3;
+        $record->string1=$request->text1;
+        $record->string2=$request->text2;
+        //$record->string3=$request->text3;
+        $record->number1=$request->num1;
+        $record->number2=$request->num2;
+        $record->number3=$request->num3;
+        $record->user_id=$request->user_id;
+        $record->device=$request->device;
         $record->save();
         return $record;
-
     }
 
     /**

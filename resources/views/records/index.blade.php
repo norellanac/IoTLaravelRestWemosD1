@@ -19,25 +19,23 @@
             <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
               <thead>
                 <tr>
-                  <th>String1</th>
-                  <th>String2</th>
-                  <th>String3</th>
-                  <th>number1</th>
-                  <th> number2</th>
-                  <th>number3</th>
+                  <th>#</th>
+                  <th>Humedad</th>
+                  <th>Temperatura</th>
                   <th>fecha</th>
+                  <th>user</th>
+                  <th>device</th>
                 </tr>
               </thead>
               <tbody>
                 @foreach ($records as $record)
                   <tr>
                     <td><a href="{{url('users/'.$record->id)}}">{{ $record->id }}</a></td>
-                    <td>{{ $record->string1 }}</td>
-                    <td>{{ $record->string2 }}</td>
-                    <td>{{ $record->string3 }}</td>
-                    <td>{{ $record->number1 }}</td>
-                    <td>{{ $record->number2 }}</td>
+                    <td>{{ $record->number1 }} %</td>
+                    <td>{{ $record->number2 }} C°</td>
                     <td>{{ $record->created_at }}</td>
+                    <td>{{ $record->user_id }}</td>
+                    <td>{{ $record->device }}</td>
                   </tr>
                 @endforeach
               </tbody>
