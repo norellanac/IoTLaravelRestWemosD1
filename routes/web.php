@@ -18,4 +18,6 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/search', 'HomeController@search')->name('search');
+Route::post('/search', 'HomeController@show')->name('search');
 Route::resource('/records', 'RecordsController')->middleware('auth');

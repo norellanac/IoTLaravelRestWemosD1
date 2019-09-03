@@ -14,8 +14,10 @@ class RecordsController extends Controller
     public function index()
     {
         //$records=Record::where('id','>',150)->get();
-        $records=Record::all();
-        return view ('records.index', [ 'records' => $records]);
+        $records=Record::where('user_id','=', auth()->user()->id)->orderBy('id', 'desc')->limit(1)->get();
+        $charts=Record::where('user_id','=', auth()->user()->id)->orderBy('id', 'asc')->get();
+        //dd($records);
+        return view ('records.create', ['records'=>$records, 'charts'=>$charts]);
     }
 
     /**
@@ -26,9 +28,9 @@ class RecordsController extends Controller
     public function create()
     {
         //
-        $last=Record::where('user_id','=', auth()->user()->id)->orderBy('id', 'desc')->limit(1)->get();
+        $records=Record::where('user_id','=', auth()->user()->id)->orderBy('id', 'desc')->limit(1)->get();
         //dd($records);
-        return view ('records.create', ['last'=>$last]);
+        return view ('records.create', ['records'=>$records]);
     }
 
     /**

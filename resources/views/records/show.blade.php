@@ -21,43 +21,83 @@
         <div class="card m-b-20">
           <div class="card-body">
             <div class="row">
-              @foreach($records as $record)
-              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mt-3">
-                <div class="shop-card">
-                  <div class="row">
+              @if(sizeof( $records)>0)
+                @foreach($records as $record)
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mt-3">
+                  <div class="shop-card">
+                    <div class="row">
 
-                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 mt-3">
+                      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 mt-3">
 
-                        <p class="h2"> Dispositivo <span class="badge badge-primary mb-2">{{$record->device}} </span></p>
-                        <div class="progress progress-bar-animated m-b-10 " style="height: 5em;">
-                            <div class="progress-bar progress-bar-striped  progress-bar-animated bg-warning text-center" role="progressbar" style='width: {{round(($record->number3 -3.6 ) * 100 /0.6)}}%;' aria-valuemin="0" aria-valuemax="100"><h3 class="">{{round(($record->number3 -3.6 ) * 100 /0.6) }}% </h3>  </div>
-                        </div>
-                        <div class="desc mt-5">
-                          Ultima lectura: {{$record->created_at->format('d F, Y H:i')}}
-                        </div>
+                          <p class="h2"> Dispositivo <span class="badge badge-primary mb-2">{{$record->device}} </span></p>
+                          <div class="progress progress-bar-animated m-b-10 " style="height: 5em;">
+                              <div class="progress-bar progress-bar-striped  progress-bar-animated bg-success text-center" role="progressbar" style='width: {{round(($record->number3 -3.5 ) * 100 /0.6)}}%;' aria-valuemin="0" aria-valuemax="100"><h3 class="">{{round(($record->number3 -3.5 ) * 100 /0.6) }}% <i class="mdi mdi-battery-charging"></i></h3>  </div>
+                          </div>
+                          <div class="desc mt-5">
+                            Ultima lectura: {{$record->created_at->format('d F, Y H:i')}}
+                          </div>
+                      </div>
+                      <div class=" col-xs-12 col-sm-12 col-md-4 col-lg-4 mt-3">
+                        <p class="h2"> {{$record->string1}} <br> <span class="badge badge-primary">{{$record->number1}} %</span></p>
+                        <img src="https://image.flaticon.com/icons/svg/1809/1809570.svg" class="mx-auto d-block" width="30%">
+                      </div>
+                      <div class=" col-xs-12 col-sm-12 col-md-4 col-lg-4 mt-3">
+                        <p class="h2"> {{$record->string2}} <br> <span class="badge badge-danger">{{$record->number2}} C°</span></p>
+                        <img src="https://image.flaticon.com/icons/svg/1113/1113779.svg" class="mx-auto d-block" width="30%">
+                      </div>
                     </div>
-                    <div class=" col-xs-12 col-sm-12 col-md-4 col-lg-4 mt-3">
-                      <p class="h2"> {{$record->string1}} <br> <span class="badge badge-primary">{{$record->number1}} %</span></p>
-                      <img src="https://image.flaticon.com/icons/svg/1809/1809570.svg" class="mx-auto d-block" width="30%">
+                    <div class="slider ">
+
                     </div>
-                    <div class=" col-xs-12 col-sm-12 col-md-4 col-lg-4 mt-3">
-                      <p class="h2"> {{$record->string2}} <br> <span class="badge badge-danger">{{$record->number2}} C°</span></p>
-                      <img src="https://image.flaticon.com/icons/svg/1113/1113779.svg" class="mx-auto d-block" width="30%">
-                    </div>
+
+                    <form action="{{url('/tracking')}}" method="POST" >
+                      @csrf
+                      <input type="hidden" class="btn btn-block btn-lg btn-warning" value="Por enviar">
+                      <input type="hidden" name="status_del" value="2">
+                      <input type="hidden" name="selct" value="3">
+                    </form>
                   </div>
-                  <div class="slider ">
-
-                  </div>
-
-                  <form action="{{url('/tracking')}}" method="POST" >
-                    @csrf
-                    <input type="hidden" class="btn btn-block btn-lg btn-warning" value="Por enviar">
-                    <input type="hidden" name="status_del" value="2">
-                    <input type="hidden" name="selct" value="3">
-                  </form>
                 </div>
-              </div>
-            @endforeach
+              @endforeach
+              @else
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mt-3">
+                  <div class="shop-card">
+                    <div class="row">
+
+                      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 mt-3">
+
+                          <p class="h2"> Dispositivo <span class="badge badge-danger mb-2">No se encontró el dispositivo </span></p>
+                          <div class="progress progress-bar-animated m-b-10 " style="height: 5em;">
+                              <div class="progress-bar progress-bar-striped  progress-bar-animated bg-success text-center" role="progressbar" style='width: {{100}}%;' aria-valuemin="0" aria-valuemax="100"><h3 class="">100% <i class="mdi mdi-battery-charging"></i></h3>  </div>
+                          </div>
+                          <div class="desc mt-5">
+                            Ultima lectura: Sin información}}
+                          </div>
+                      </div>
+                      <div class=" col-xs-12 col-sm-12 col-md-4 col-lg-4 mt-3">
+                        <p class="h2"> Humedad <br> <span class="badge badge-primary">0 %</span></p>
+                        <img src="https://image.flaticon.com/icons/svg/1809/1809570.svg" class="mx-auto d-block" width="30%">
+                      </div>
+                      <div class=" col-xs-12 col-sm-12 col-md-4 col-lg-4 mt-3">
+                        <p class="h2"> Temperatura <br> <span class="badge badge-danger">0 C°</span></p>
+                        <img src="https://image.flaticon.com/icons/svg/1113/1113779.svg" class="mx-auto d-block" width="30%">
+                      </div>
+                    </div>
+                    <div class="slider ">
+
+                    </div>
+
+                    <form action="{{url('/tracking')}}" method="POST" >
+                      @csrf
+                      <input type="hidden" class="btn btn-block btn-lg btn-warning" value="Por enviar">
+                      <input type="hidden" name="status_del" value="2">
+                      <input type="hidden" name="selct" value="3">
+                    </form>
+                  </div>
+                </div>
+
+              @endif
+
 
             </div>
 

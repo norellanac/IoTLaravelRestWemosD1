@@ -20,12 +20,13 @@
       <div class="col-12">
         <div class="card m-b-20">
           <div class="card-body">
+            @foreach ($records as $record)
             <div class="row">
               <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 mt-3">
                 <div class="shop-card">
-                  <p class="h2"> {{$last[0]['string2']}} <span class="badge badge-warning">{{$last[0]['number2']}} C°</span></p>
+                  <p class="h2"> {{$record->string2}} <span class="badge badge-warning">{{$record->number2}} C°</span></p>
                   <div class="desc">
-                    {{$last[0]['created_at']->format('d F, y')}}
+                    {{$record->created_at->format('d F, y')}}
                   </div>
                   <div class="slider ">
                     <img src="https://image.flaticon.com/icons/svg/1113/1113779.svg" class="mx-auto d-block" width="50%">
@@ -43,9 +44,9 @@
 
               <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 mt-3">
                 <div class="shop-card  justify-content-center align-items-center">
-                  <p class="h2"> {{$last[0]['string1']}} <span class="badge badge-primary">{{$last[0]['number1']}} %</span></p>
+                  <p class="h2"> {{$record->string1}} <span class="badge badge-primary">{{$record->number1}} %</span></p>
                   <div class="desc">
-                    {{$last[0]['created_at']->format('d F, y')}}
+                    {{$record->created_at->format('d F, y')}}
                   </div>
                   <div class="slider">
                     <img src="https://image.flaticon.com/icons/svg/1809/1809570.svg" class="mx-auto d-block" width="50%">
@@ -58,11 +59,8 @@
                   </form>
                 </div>
               </div>
-
-
-
             </div>
-
+          @endforeach
 
             <div class="card-body mt-5">
 
@@ -90,21 +88,6 @@
         </div>
       </div>
     </div>
-    <div class="card-body">
-
-                                            <h4 class="mt-0 header-title">Height</h4>
-                                            <p class="text-muted m-b-30">We only set a <code
-                                                    class="highlighter-rouge">height</code> value on the <code
-                                                    class="highlighter-rouge">.progress-bar</code>, so if you change
-                                                that value the outer <code class="highlighter-rouge">.progress</code>
-                                                will automatically resize accordingly.</p>
-
-                                            <div class="">
-                                                <div class="progress progress-bar-animated m-b-10" style="height: 5em;">
-                                                    <div class="progress-bar progress-bar-animated " role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
-                                                </div>
-                                            </div>
-                                        </div>
   </div>
 @endsection
 @section('sectionJS')
@@ -243,10 +226,22 @@
 
   //Simple line chart
   new Chartist.Line('#simple-line-chart1', {
-    labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+    labels: [
+      @foreach($charts as $chart)
+      '{{$chart->created_at->format('H:i')}}',
+      @endforeach
+    ],
     series: [
-      [23, 22.5, 22.8, 22.1, 23],
-      [40, 39, 37, 47, 39],
+      [
+        @foreach($charts as $chart)
+        {{$chart->number1}},
+        @endforeach
+      ],
+      [
+        @foreach($charts as $chart)
+        {{$chart->number2}},
+        @endforeach
+      ],
     ]
   }, {
     fullWidth: true,
