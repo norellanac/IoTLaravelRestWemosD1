@@ -31,7 +31,7 @@
 
                           <p class="h2"> Dispositivo <span class="badge badge-primary mb-2">{{$record->device}} </span></p>
                           <div class="progress progress-bar-animated m-b-10 " style="height: 5em;">
-                              <div class="progress-bar progress-bar-striped  progress-bar-animated bg-success text-center" role="progressbar" style='width: {{round(($record->number3 -3.5 ) * 100 /0.6)}}%;' aria-valuemin="0" aria-valuemax="100"><h3 class="">{{round(($record->number3 -3.5 ) * 100 /0.6) }}% <i class="mdi mdi-battery-charging"></i></h3>  </div>
+                              <div class="progress-bar progress-bar-striped  progress-bar-animated bg-success text-center" role="progressbar" style='width: {{round(($record->number3 -3.65 ) * 100 /0.5)}}%;' aria-valuemin="0" aria-valuemax="100"><h3 class="">{{round(($record->number3 -3.65 ) * 100 /0.5) }}% <i class="mdi mdi-battery-charging"></i></h3>  </div>
                           </div>
                           <div class="desc mt-5">
                             Ultima lectura: {{$record->created_at->format('d F, Y H:i')}}
@@ -56,6 +56,28 @@
                       <input type="hidden" name="status_del" value="2">
                       <input type="hidden" name="selct" value="3">
                     </form>
+                  </div>
+                  <div class="card-body mt-5">
+
+                    <h4 class="mt-0 header-title">Ultimas lecturas</h4>
+
+                    {{-- <ul class="list-inline widget-chart m-t-20 m-b-15 text-center">
+                      <li class="list-inline-item">
+                        <h5 class="mb-0">44242</h5>
+                        <p class="text-muted">Activated</p>
+                      </li>
+                      <li class="list-inline-item">
+                        <h5 class="mb-0">75221</h5>
+                        <p class="text-muted">Pending</p>
+                      </li>
+                      <li class="list-inline-item">
+                        <h5 class="mb-0">65212</h5>
+                        <p class="text-muted">Deactivated</p>
+                      </li>
+                    </ul> --}}
+
+                    <div id="simple-line-chart1" class="ct-chart ct-golden-section"></div>
+
                   </div>
                 </div>
               @endforeach
@@ -100,9 +122,8 @@
 
 
             </div>
-
-
           </div>
+          <div id="simple-line-chart1" class="ct-chart ct-golden-section "></div>
         </div>
       </div>
     </div>
@@ -244,10 +265,22 @@
 
   //Simple line chart
   new Chartist.Line('#simple-line-chart1', {
-    labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+    labels: [
+      @foreach($charts as $chart)
+      '{{$chart->created_at->format('H:i')}}',
+      @endforeach
+    ],
     series: [
-      [23, 22.5, 22.8, 22.1, 23],
-      [40, 39, 37, 47, 39],
+      [
+        @foreach($charts as $chart)
+        {{$chart->number1}},
+        @endforeach
+      ],
+      [
+        @foreach($charts as $chart)
+        {{$chart->number2}},
+        @endforeach
+      ],
     ]
   }, {
     fullWidth: true,

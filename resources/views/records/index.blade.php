@@ -23,18 +23,21 @@
                   <th>Humedad</th>
                   <th>Temperatura</th>
                   <th>fecha</th>
-                  <th>user</th>
+                  <th>Bateria</th>
                   <th>device</th>
                 </tr>
               </thead>
               <tbody>
+                @php
+                $i=1;
+              @endphp
                 @foreach ($records as $record)
                   <tr>
-                    <td><a href="{{url('users/'.$record->id)}}">{{ $record->id }}</a></td>
+                    <td><a href="{{url('users/'.$record->id)}}">{{ $i++ }}</a></td>
                     <td>{{ $record->number1 }} %</td>
                     <td>{{ $record->number2 }} C°</td>
                     <td>{{ $record->created_at }}</td>
-                    <td>{{ $record->user_id }}</td>
+                    <td>{{round(($record->number3 -3.65 ) * 100 /0.5) }}%</td>
                     <td>{{ $record->device }}</td>
                   </tr>
                 @endforeach

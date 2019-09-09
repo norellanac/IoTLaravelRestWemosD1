@@ -29,6 +29,7 @@
                     {{$record->created_at->format('d F, y')}}
                   </div>
                   <div class="slider ">
+                    {{--                     <div id="container" style="min-width: 100%; max-width: 100%; height: 300px; margin: 0 auto"></div>--}}
                     <img src="https://image.flaticon.com/icons/svg/1113/1113779.svg" class="mx-auto d-block" width="50%">
                   </div>
 
@@ -64,22 +65,7 @@
 
             <div class="card-body mt-5">
 
-              <h4 class="mt-0 header-title">Simple line chart</h4>
-
-              <ul class="list-inline widget-chart m-t-20 m-b-15 text-center">
-                <li class="list-inline-item">
-                  <h5 class="mb-0">44242</h5>
-                  <p class="text-muted">Activated</p>
-                </li>
-                <li class="list-inline-item">
-                  <h5 class="mb-0">75221</h5>
-                  <p class="text-muted">Pending</p>
-                </li>
-                <li class="list-inline-item">
-                  <h5 class="mb-0">65212</h5>
-                  <p class="text-muted">Deactivated</p>
-                </li>
-              </ul>
+              <h4 class="mt-0 header-title">Ultimas lecturas</h4>
 
               <div id="simple-line-chart1" class="ct-chart ct-golden-section"></div>
 
@@ -91,6 +77,100 @@
   </div>
 @endsection
 @section('sectionJS')
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://code.highcharts.com/highcharts-more.js"></script>
+  <script type="text/javascript">
+  $(function () {
+
+    $('#container').highcharts({
+
+      chart: {
+        type: 'gauge'
+      },
+
+      title: {
+        text: 'Temperatura'
+      },
+
+      pane: {
+        startAngle: -90,
+        endAngle: 90,
+        background: null
+      },
+
+      // the value axis
+      yAxis: {
+        min: 0,
+        max: 50,
+
+        minorTickInterval: 'auto',
+        minorTickWidth: 1,
+        minorTickLength: 10,
+        minorTickPosition: 'inside',
+        minorTickColor: '#666',
+
+        tickPixelInterval: 5,
+        tickWidth: 2,
+        tickPosition: 'inside',
+        tickLength: 10,
+        tickColor: '#666',
+        labels: {
+          step: 2,
+          rotation: 'auto'
+        },
+        title: {
+          text: 'C°'
+        },
+        plotBands: [{
+          from: 0,
+          to: 25,
+          color: '#55BF3B' // green
+        }, {
+          from: 25,
+          to: 40,
+          color: '#DDDF0D' // yellow
+        }, {
+          from: 40,
+          to: 50,
+          color: '#DF5353' // red
+        }, /*{
+          from: 100,
+          to: 140,
+          color: '#6677ff',
+          innerRadius: '100%',
+          outerRadius: '110%'
+        }*/]
+      },
+
+      series: [{
+        name: 'Speed',
+        data: [24],
+        tooltip: {
+          valueSuffix: ' km/h'
+        }
+      }]
+
+    },
+    // Add some life
+    function (chart) {
+      if (!chart.renderer.forExport) {
+        setInterval(function () {
+          var point = chart.series[0].points[0],
+          newVal,
+          inc = Math.round((Math.random() - 0.5) * 20);
+
+          newVal = point.y + inc;
+          if (newVal < 0 || newVal > 50) {
+            newVal = point.y - inc;
+          }
+
+          point.update(newVal);
+
+        }, 3000);
+      }
+    });
+  });
+  </script>
   <script type="text/javascript">
   var chart = new Chartist.Line('#smil-animations', {
     labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],

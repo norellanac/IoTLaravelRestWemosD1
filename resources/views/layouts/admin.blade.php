@@ -4,10 +4,10 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-    <title>Canjeaton</title>
+    <title>IoT 10x Informatica</title>
     <meta content="Admin Dashboard" name="description" />
     <meta content="Themesbrand" name="author" />
-    <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico')}}">
+    <link rel="shortcut icon" href="{{ asset('https://image.flaticon.com/icons/svg/2016/2016736.svg')}}">
     <!-- DataTables -->
     <link href="{{ asset('plugins/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('plugins/datatables/buttons.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
@@ -55,15 +55,15 @@
                 <li class="dropdown notification-list">
                     <div class="dropdown notification-list nav-pro-img">
                         <a class="dropdown-toggle nav-link arrow-none waves-effect nav-user waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                            <img src="/storage/{{auth()->user()->url_image}}" alt="user" class="rounded-square">
+                            <img src="http://10x.org/wp-content/uploads/2019/07/Webp.net-resizeimage-9.png" alt="user" class="rounded-square">
                         </a>
                         <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
                             @if(auth()->check())
-                                <a class="dropdown-item" href={{url('/')}}>
+                               <a class="dropdown-item" href={{url('/')}}>
                                     <i class="mdi mdi-account-circle m-r-5"></i>{{auth()->user()->name}}   </a>
-                                <a class="dropdown-item text-danger" ><i class="mdi mdi-account-circle text-danger"></i><span class="badge badge-info"> {{auth()->user()->getRoleNames()}} </span></a>
+                                  {{--<a class="dropdown-item text-danger" ><i class="mdi mdi-account-circle text-danger"></i><span class="badge badge-info"> {{auth()->user()->getRoleNames()}} </span></a> --}}
                             @endif
-                            <a class="dropdown-item" href="/wallet"><i class="mdi mdi-wallet m-r-5"></i>Mi billetera <span class="badge badge-warning">{{Auth::user()}}</span></a>
+                            {{--<a class="dropdown-item" href="/wallet"><i class="mdi mdi-wallet m-r-5"></i>Mi billetera <span class="badge badge-warning">{{Auth::user()}}</span></a> --}}
                             {{-- <a class="dropdown-item d-block" href="#"><i class="mdi mdi-settings m-r-5"></i>Ajustes</a> --}}
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item text-danger" href="{{ route('logout') }}"
@@ -113,7 +113,7 @@
             </div>
         </div>
         <footer class="footer">
-            © 2019 Canjeaton <span class="d-none d-sm-inline-block">- Creado por <a href="http://10x.org/" target="_blank">10x Informatica</a></span>
+            © 2019  <span class="d-none d-sm-inline-block">- Creado por <a href="http://10x.org/" target="_blank">10x Informatica</a></span>
         </footer>
     </div>
 </div>

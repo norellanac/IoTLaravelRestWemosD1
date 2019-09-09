@@ -27,7 +27,7 @@ class RecordsController extends Controller
     {
         //
         $records=Record::where('user_id','=', auth()->user()->id)->orderBy('id', 'desc')->limit(1)->get();
-        $charts=Record::where('user_id','=', auth()->user()->id)->orderBy('id', 'asc')->get();
+        $charts=Record::where('user_id','=', auth()->user()->id)->orderBy('id', 'asc')->limit(20)->get();
         //dd($records);
         return view ('records.create', ['records'=>$records, 'charts'=>$charts]);
     }
@@ -66,7 +66,8 @@ class RecordsController extends Controller
         $records=Record::where('user_id','=', auth()->user()->id )->where('device', '=', $id)->orderBy('created_at', 'desc')->limit(1)->get();
         //$last=Record::where('id','>', 0)->orderBy('created_at', 'desc')->limit(1)->get();
         //dd($records);
-        return view ('records.show', ['records'=>$records]);
+        //$charts=Record::where('user_id','=', auth()->user()->id)->orderBy('id', 'asc')->get();
+        return view ('records.show', ['records'=>$records , 'charts'=>null]);
     }
 
     /**
