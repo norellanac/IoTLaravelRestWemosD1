@@ -6,21 +6,21 @@
             <span>Inicio</span>
         </a>
     </li>
-    {{--<li>
+    <li>
         <a href="javascript:void(0);" class="waves-effect">
-            <i class="fas fa-user-tag"></i>
-            <span>Dispositivos
+            <i class="fas fa-file-alt"></i>
+            <span>Reportes
                 <span class="float-right menu-arrow">
                     <i class="mdi mdi-plus"></i>
                 </span>
             </span>
         </a>
         <ul class="submenu">
-            <li><a href="{{url('/records/')}}">Reportes</a></li>
-            <li><a href="{{url('/search')}}">Buscar</a></li>
+            <li><a href="{{url('/records/')}}"> Ultimos registros </i></a></li>
+            <li><a href="{{url('/search')}}">Por Fechas</a></li>
         </ul>
-    </li>--}}
-    <li>
+    </li>
+    {{--<li>
         <a href="{{ url('records') }}" class="waves-effect">
             <i class="fas fa-file-alt"></i>
             <span>Reportes</span>
@@ -31,5 +31,5 @@
             <i class="fas fa-search"></i>
             <span>Buscar</span>
         </a>
-    </li>
+    </li>--}}
 @endsection

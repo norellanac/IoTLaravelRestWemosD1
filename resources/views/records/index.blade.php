@@ -8,14 +8,14 @@
       <div class="col-12">
         <div class="card m-b-20">
           <div class="card-body">
-              <div class="flash-message" id="success-alert">
-                @foreach (['danger', 'warning', 'success', 'info'] as $msg)
+            <div class="flash-message" id="success-alert">
+              @foreach (['danger', 'warning', 'success', 'info'] as $msg)
                 @if(Session::has('alert-' . $msg))
 
-                <p class="alert alert-{{ $msg }}">{{ Session::get('alert-' . $msg) }} <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></p>
+                  <p class="alert alert-{{ $msg }}">{{ Session::get('alert-' . $msg) }} <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></p>
                 @endif
-                @endforeach
-              </div>
+              @endforeach
+            </div>
             <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
               <thead>
                 <tr>
@@ -30,13 +30,14 @@
               <tbody>
                 @php
                 $i=1;
-              @endphp
+                @endphp
                 @foreach ($records as $record)
                   <tr>
-                    <td><a href="{{url('users/'.$record->id)}}">{{ $i++ }}</a></td>
+                    <td>{{ $i++ }}</td>
                     <td>{{ $record->number1 }} %</td>
                     <td>{{ $record->number2 }} C°</td>
-                    <td>{{ $record->created_at }}</td>
+                    @php $date=new DateTime( $record->created_at) @endphp
+                    <td>{{$date->modify('-6 hours')->format('d F -  H:i') }}</td>
                     <td>{{round(($record->number3 -3.65 ) * 100 /0.5) }}%</td>
                     <td>{{ $record->device }}</td>
                   </tr>

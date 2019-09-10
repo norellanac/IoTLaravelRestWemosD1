@@ -21,3 +21,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/search', 'HomeController@search')->name('search');
 Route::post('/search', 'HomeController@show')->name('search');
 Route::resource('/records', 'RecordsController')->middleware('auth');
+
+Route::post('/reporte/', 'ReportsController@index')->middleware('auth');
+Route::post('/reporte/fechas/', 'ReportsController@fechas')->middleware('auth');

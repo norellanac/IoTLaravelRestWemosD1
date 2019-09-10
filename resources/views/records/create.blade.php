@@ -5,63 +5,110 @@
   @section('page_description','Bitacora de registros')
   <style type="text/css">
 
-        .shop-card {
-            background: #f5f5f5;
-            box-shadow: 0 10px 20px rgba(0,0,0,.3);
-            overflow: hidden;
-            border-radius: 10px;
-            padding: 25px;
-            text-align: center;
-        }
+  .shop-card {
+    background: #f5f5f5;
+    box-shadow: 0 10px 20px rgba(0,0,0,.3);
+    overflow: hidden;
+    border-radius: 10px;
+    padding: 25px;
+    text-align: center;
+  }
 
-    </style>
+  </style>
   <div class="page-content-wrapper">
     <div class="row">
       <div class="col-12">
         <div class="card m-b-20">
           <div class="card-body">
             @foreach ($records as $record)
-            <div class="row">
-              <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 mt-3">
-                <div class="shop-card">
-                  <p class="h2"> {{$record->string2}} <span class="badge badge-warning">{{$record->number2}} C°</span></p>
-                  <div class="desc">
-                    {{$record->created_at->format('d F, y')}}
-                  </div>
-                  <div class="slider ">
-                    {{--                     <div id="container" style="min-width: 100%; max-width: 100%; height: 300px; margin: 0 auto"></div>--}}
-                    <img src="https://image.flaticon.com/icons/svg/1113/1113779.svg" class="mx-auto d-block" width="50%">
-                  </div>
+              <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 mt-3">
+                  <div class="shop-card">
+                    <p class="h2"> {{$record->string2}} <span class="badge badge-warning">{{$record->number2}} C°</span></p>
+                    <div class="desc">
+                      {{$record->created_at->modify('-6 hours')->format('d F, y H:i')}}
+                    </div>
+                    <div class="slider ">
+                      {{--                     <div id="container" style="min-width: 100%; max-width: 100%; height: 300px; margin: 0 auto"></div>--}}
+                      <img src="https://image.flaticon.com/icons/svg/1113/1113779.svg" class="mx-auto d-block" width="50%">
+                    </div>
 
-                  <form action="{{url('/tracking')}}" method="POST" >
-                    @csrf
-                    <input type="hidden" class="btn btn-block btn-lg btn-warning" value="Por enviar">
-                    <input type="hidden" name="status_del" value="2">
-                    <input type="hidden" name="selct" value="3">
-                  </form>
+                    <form action="{{url('/tracking')}}" method="POST" >
+                      @csrf
+                      <input type="hidden" class="btn btn-block btn-lg btn-warning" value="Por enviar">
+                      <input type="hidden" name="status_del" value="2">
+                      <input type="hidden" name="selct" value="3">
+                    </form>
+                  </div>
+                </div>
+
+
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 mt-3">
+                  <div class="shop-card  justify-content-center align-items-center">
+                    <p class="h2"> {{$record->string1}} <span class="badge badge-primary">{{$record->number1}} %</span></p>
+                    <div class="desc">
+                      {{$record->created_at->modify('-6 hours')->format('d F, y H:i')}}
+                    </div>
+                    <div class="slider">
+                      <img src="https://image.flaticon.com/icons/svg/1809/1809570.svg" class="mx-auto d-block" width="50%">
+                    </div>
+                  </div>
                 </div>
               </div>
+            @endforeach
+            <div class="card-body">
+              <p>
+                <a class="btn btn-outline-primary mo-mb-2 btn-block" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                  Mis dispositivos <i class="ion-arrow-down-b "></i>
+                </a>
+              </p>
 
-
-              <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 mt-3">
-                <div class="shop-card  justify-content-center align-items-center">
-                  <p class="h2"> {{$record->string1}} <span class="badge badge-primary">{{$record->number1}} %</span></p>
-                  <div class="desc">
-                    {{$record->created_at->format('d F, y')}}
-                  </div>
-                  <div class="slider">
-                    <img src="https://image.flaticon.com/icons/svg/1809/1809570.svg" class="mx-auto d-block" width="50%">
-                  </div>
-                  <form action="{{url('/tracking')}}" method="POST" >
-                    @csrf
-                    <input type="hidden" class="btn btn-block btn-lg btn-primary" value="Proceso">
-                    <input type="hidden" name="status_del" value="3">
-                    <input type="hidden" name="selct" value="5">
-                  </form>
-                </div>
-              </div>
             </div>
-          @endforeach
+            <div class="collapse  row" id="collapseExample">
+
+              @foreach ($devices as $device)
+                @php
+                $record=App\Record::where('user_id','=', auth()->user()->id)->where('device', '=' , $device->device )->orderBy('id', 'desc')->limit(1)->first()
+                @endphp
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 mt-3">
+                  <div class="shop-card">
+                    <p class="h3 text-dark mb-5"><i class="mdi mdi-access-point-network "></i>  Dispositivo {{$device->device}}:</p>
+                    <div class="row">
+                      <div class="col-8">
+                        <span class="h5"><i class="ion-thermometer "></i>  {{$record->string2}}:</span>
+                      </div>
+                      <div class="col-3">
+                        <p class="h5"><span class="badge badge-warning"> {{$record->number2}} C°</span></p>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-8">
+                        <span class="h5"><i class="ion-waterdrop  "></i>  {{$record->string1}}:</span>
+                      </div>
+                      <div class="col-3">
+                        <p class="h5"><span class="badge badge-primary">{{$record->number1}} %</span></p>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-8">
+                        <span class="h5"><i class="ion-battery-half  "></i>  Batería:</span>
+                      </div>
+                      <div class="col-3">
+                        <p class="h5"><span class="badge badge-success">{{round(($record->number3 -3.65 ) * 100 /0.5)}}%</span></p>
+                      </div>
+                    </div>
+                    <div class="row mt-3">
+                      <div class="col-8">
+                        <span class="h6"><i class="ion-clock  "></i>  {{$record->created_at->modify('-6 hours')->format('d F, y H:i')}}</span>
+                      </div>
+                      <div class="col-3">
+                        <a href="{{url('/records/' . $device->device)}}" class=" btn-light waves-effect"> <i class="mdi mdi-calendar-clock  "></i>.  Historial</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              @endforeach
+            </div>
 
             <div class="card-body mt-5">
 
@@ -308,7 +355,7 @@
   new Chartist.Line('#simple-line-chart1', {
     labels: [
       @foreach($charts as $chart)
-      '{{$chart->created_at->format('H:i')}}',
+      '{{$chart->created_at->modify('-6 hours')->format('H:i')}}',
       @endforeach
     ],
     series: [

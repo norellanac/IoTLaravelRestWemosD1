@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Record;
+use Illuminate\Support\Facades\DB;
 class RecordsController extends Controller
 {
     /**
@@ -14,7 +15,7 @@ class RecordsController extends Controller
     public function index()
     {
         //$records=Record::where('id','>',150)->get();
-        $records=Record::where('user_id','=', auth()->user()->id)->orderBy('id', 'desc')->get();
+        $records=Record::where('user_id','=', auth()->user()->id)->orderBy('id', 'desc')->limit(150)->get();
         return view ('records.index', [ 'records' => $records]);
     }
 
@@ -27,9 +28,10 @@ class RecordsController extends Controller
     {
         //
         $records=Record::where('user_id','=', auth()->user()->id)->orderBy('id', 'desc')->limit(1)->get();
-        $charts=Record::where('user_id','=', auth()->user()->id)->orderBy('id', 'asc')->limit(20)->get();
-        //dd($records);
-        return view ('records.create', ['records'=>$records, 'charts'=>$charts]);
+        $charts=Record::where('user_id','=', auth()->user()->id)->orderBy('id', 'desc')->limit(20)->get();
+        $devices = DB::table('records')->distinct()->get('device');
+        //dd($devices);
+        return view ('records.create', ['records'=>$records, 'charts'=>$charts, 'devices'=>$devices]);
     }
 
     /**
@@ -62,12 +64,11 @@ class RecordsController extends Controller
     public function show($id)
     {
         //
-        //dd(auth()->user()->id);
         $records=Record::where('user_id','=', auth()->user()->id )->where('device', '=', $id)->orderBy('created_at', 'desc')->limit(1)->get();
         //$last=Record::where('id','>', 0)->orderBy('created_at', 'desc')->limit(1)->get();
         //dd($records);
-        //$charts=Record::where('user_id','=', auth()->user()->id)->orderBy('id', 'asc')->get();
-        return view ('records.show', ['records'=>$records , 'charts'=>null]);
+        $charts=Record::where('user_id','=', auth()->user()->id)->where('device', '=', $id)->orderBy('id', 'desc')->limit(20)->get();
+        return view ('records.show', ['records'=>$records, 'charts'=>$charts]);
     }
 
     /**
