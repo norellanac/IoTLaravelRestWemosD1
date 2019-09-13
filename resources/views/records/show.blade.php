@@ -30,8 +30,8 @@
                         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 mt-3">
 
                           <p class="h2"> Dispositivo <span class="badge badge-primary mb-2">{{$record->device}} </span></p>
-                          <div class="offset-1 col-10 progress progress-bar-animated m-b-10 " style="height: 5em;">
-                            <div class="progress-bar progress-bar-striped  progress-bar-animated bg-success text-center" role="progressbar" style='width: {{round(($record->number3 -3.65 ) * 100 /0.5)}}%;' aria-valuemin="0" aria-valuemax="100"><h3 class="">{{round(($record->number3 -3.65 ) * 100 /0.5) }}% <i class="mdi mdi-battery-charging"></i></h3>  </div>
+                          <div class="offset-1  progress progress-bar-animated m-b-10 " style="height: 5em;">
+                            <div class="progress-bar progress-bar-striped  progress-bar-animated bg-success text-center" role="progressbar" style='width: {{round(($record->number3 -2.55 ) * 59)}}%;' aria-valuemin="0" aria-valuemax="100"><h3 class="">{{round(($record->number3 -2.55 ) * 59) }}% <i class="mdi mdi-battery-charging"></i></h3>  </div>
                           </div>
                           <div class="desc mt-5">
                             Ultima lectura: {{$record->created_at->format('d F, Y H:i')}}

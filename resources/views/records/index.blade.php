@@ -38,7 +38,7 @@
                     <td>{{ $record->number2 }} C°</td>
                     @php $date=new DateTime( $record->created_at) @endphp
                     <td>{{$date->modify('-6 hours')->format('d F -  H:i') }}</td>
-                    <td>{{round(($record->number3 -3.65 ) * 100 /0.5) }}%</td>
+                    <td>{{round(($record->number3 -2.55 ) * 59) }}%</td>
                     <td>{{ $record->device }}</td>
                   </tr>
                 @endforeach
