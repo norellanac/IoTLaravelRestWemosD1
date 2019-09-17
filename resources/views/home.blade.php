@@ -1,5 +1,5 @@
 @extends('layouts.roles.SuperAdmin')
-
+@section('tittleSite','IoT 10x Informatica')
 @section('content')
 <div class="container">
     <div class="row justify-content-center">

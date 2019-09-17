@@ -1,5 +1,5 @@
 @extends('layouts.dependencias')
-
+@section('tittleSite','IoT 10x Informatica')
 @section('content')
   <div class="card">
     <div class="ex-page-content text-center">

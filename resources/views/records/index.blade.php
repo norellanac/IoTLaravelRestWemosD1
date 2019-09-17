@@ -1,7 +1,7 @@
 @extends('layouts.roles.SuperAdmin')
 
 @section('content')
-  @section('page_title','Registros')
+  @section('tittleSite', auth()->user()->name  )
   @section('page_description','Bitacora de registros')
   <div class="page-content-wrapper">
     <div class="row">
@@ -16,7 +16,7 @@
                 @endif
               @endforeach
             </div>
-            <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+            <table id="datatable-buttons" class="text-center table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
               <thead>
                 <tr>
                   <th>#</th>

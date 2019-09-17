@@ -1,7 +1,7 @@
 @extends('layouts.roles.SuperAdmin')
 
 @section('content')
-  @section('page_title','Registros')
+  @section('tittleSite','IoT 10x Informatica')
   @section('page_description','Bitacora de registros')
   <style type="text/css">
 

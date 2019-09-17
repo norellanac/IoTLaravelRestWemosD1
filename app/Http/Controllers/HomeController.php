@@ -26,7 +26,7 @@ class HomeController extends Controller
     public function index()
     {
       $records=Record::where('user_id','=', auth()->user()->id)->orderBy('id', 'desc')->limit(1)->get();
-      $charts=Record::where('user_id','=', auth()->user()->id)->orderBy('id', 'desc')->limit(20)->get();
+      $charts=Record::where('user_id','=', auth()->user()->id)->orderBy('id', 'desc')->limit(25)->get();
       //dd($charts);
       $devices = DB::table('records')->distinct()->get('device');
       //dd($devices);

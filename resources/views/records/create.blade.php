@@ -1,7 +1,7 @@
 @extends('layouts.roles.SuperAdmin')
 
 @section('content')
-  @section('page_title','Registros')
+  @section('tittleSite','IoT 10x Informatica' . auth()->user()->name )
   @section('page_description','Bitacora de registros')
   <style type="text/css">
 
@@ -110,13 +110,90 @@
               @endforeach
             </div>
 
-            <div class="card-body mt-5">
+            {{--}}<div class="card-body mt-5">
 
               <h4 class="mt-0 header-title">Ultimas lecturas</h4>
 
               <div id="simple-line-chart1" class="ct-chart ct-golden-section"></div>
 
+            </div>--}}
+
+            <div class="">
+              <div class="card m-b-30">
+                <div class="card-body">
+
+
+                  <ul class="list-inline widget-chart m-t-20 m-b-15 text-center">
+                    <li class="list-inline-item">
+                      <h5 class="mb-0">{{$charts->first()->number1}} %</h5>
+                      <p class="text-muted">Humedad</p>
+                    </li>
+                    <li class="list-inline-item">
+                      <h5 class="mb-0">{{$charts->first()->number1}} C°</h5>
+                      <p class="text-muted">Temperatura</p>
+                    </li>
+                    <li class="list-inline-item">
+                      <h5 class="mb-0">{{$charts->first()->created_at->modify('-6 hours')->format('H:i')}} Horas</h5>
+                      <p class="text-muted">{{$charts->first()->created_at->modify('-6 hours')->format('d F, Y')}}</p>
+                    </li>
+                  </ul>
+
+                  <div id="morris-line-sensors" class="morris-chart-height morris-charts"></div>
+
+                </div>
+              </div>
             </div>
+
+            <div class="">
+              <table id="datatable-buttons" class="text-center table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Humedad</th>
+                    <th>Temperatura</th>
+                    <th>fecha</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @php
+                  $i=1;
+                  $count=0;
+                  $tempe=0;
+                  $hum=0;
+                  $tempDate=$charts->first()->created_at->format('d F -  H');
+                  //@dd($tempDate);
+                  @endphp
+                  @foreach ($charts as $record)
+                    @if($record->created_at->format('d F -  H')==$tempDate)
+                      @php
+                      $count++;
+                      $tempe=$tempe + $record->number1 ;
+                      $hum= $hum + $record->number2;
+                      @endphp
+                    @else
+                      <tr>
+                        <td>{{ $i++ }}</td>
+                        <td>{{ number_format($tempe / $count)}} %</td>
+                        <td>{{ number_format($hum / $count, 2)}} C°</td>
+                        @php $date=new DateTime( $record->created_at) @endphp
+                        <td>{{$date->modify('-6 hours')->format('d F -  H:i') }}</td>
+                      </tr>
+                      @php
+                      $count=0;
+                      $tempe=0 ;
+                      $hum= 0;
+                      @endphp
+                    @endif
+
+                    @php
+                    $tempDate=$record->created_at->format('d F -  H');
+                    @endphp
+                  @endforeach
+                </tbody>
+              </table>
+
+            </div>
+
           </div>
         </div>
       </div>
@@ -127,98 +204,192 @@
   <script src="https://code.highcharts.com/highcharts.js"></script>
   <script src="https://code.highcharts.com/highcharts-more.js"></script>
   <script type="text/javascript">
-  $(function () {
+  /*
+  Template Name: Agroxa - Responsive Bootstrap 4 Admin Dashboard
+  Author: Themesbrand
+  File: Morris chart Init
+  */
 
-    $('#container').highcharts({
 
-      chart: {
-        type: 'gauge'
-      },
+  !function ($) {
+    "use strict";
 
-      title: {
-        text: 'Temperatura'
-      },
+    var MorrisCharts = function () {
+    };
 
-      pane: {
-        startAngle: -90,
-        endAngle: 90,
-        background: null
-      },
+    //creates line chart
+    MorrisCharts.prototype.createLineChart = function (element, data, xkey, ykeys, labels, lineColors) {
+      Morris.Line({
+        element: element,
+        data: data,
+        xkey: xkey,
+        ykeys: ykeys,
+        labels: labels,
+        hideHover: 'auto',
+        gridLineColor: '#eef0f2',
+        resize: true, //defaulted to true
+        lineColors: lineColors,
+        lineWidth: 2
+      });
+    },
 
-      // the value axis
-      yAxis: {
-        min: 0,
-        max: 50,
+    //creates Bar chart
+    MorrisCharts.prototype.createBarChart = function (element, data, xkey, ykeys, labels, lineColors) {
+      Morris.Bar({
+        element: element,
+        data: data,
+        xkey: xkey,
+        ykeys: ykeys,
+        labels: labels,
+        gridLineColor: '#eef0f2',
+        barSizeRatio: 0.4,
+        resize: true,
+        hideHover: 'auto',
+        barColors: lineColors
+      });
+    },
 
-        minorTickInterval: 'auto',
-        minorTickWidth: 1,
-        minorTickLength: 10,
-        minorTickPosition: 'inside',
-        minorTickColor: '#666',
+    //creates area chart
+    MorrisCharts.prototype.createAreaChart = function (element, pointSize, lineWidth, data, xkey, ykeys, labels, lineColors) {
+      Morris.Area({
+        element: element,
+        pointSize: 0,
+        lineWidth: 0,
+        data: data,
+        xkey: xkey,
+        ykeys: ykeys,
+        labels: labels,
+        resize: true,
+        gridLineColor: '#eee',
+        hideHover: 'auto',
+        lineColors: lineColors,
+        fillOpacity: .6,
+        behaveLikeLine: true
+      });
+    },
 
-        tickPixelInterval: 5,
-        tickWidth: 2,
-        tickPosition: 'inside',
-        tickLength: 10,
-        tickColor: '#666',
-        labels: {
-          step: 2,
-          rotation: 'auto'
-        },
-        title: {
-          text: 'C°'
-        },
-        plotBands: [{
-          from: 0,
-          to: 25,
-          color: '#55BF3B' // green
-        }, {
-          from: 25,
-          to: 40,
-          color: '#DDDF0D' // yellow
-        }, {
-          from: 40,
-          to: 50,
-          color: '#DF5353' // red
-        }, /*{
-          from: 100,
-          to: 140,
-          color: '#6677ff',
-          innerRadius: '100%',
-          outerRadius: '110%'
-        }*/]
-      },
+    //creates Donut chart
+    MorrisCharts.prototype.createDonutChart = function (element, data, colors) {
+      Morris.Donut({
+        element: element,
+        data: data,
+        resize: true,
+        colors: colors
+      });
+    },
+    //creates Stacked chart
+    MorrisCharts.prototype.createStackedChart = function (element, data, xkey, ykeys, labels, lineColors) {
+      Morris.Bar({
+        element: element,
+        data: data,
+        xkey: xkey,
+        ykeys: ykeys,
+        stacked: true,
+        labels: labels,
+        hideHover: 'auto',
+        barSizeRatio: 0.4,
+        resize: true, //defaulted to true
+        gridLineColor: '#eeeeee',
+        barColors: lineColors
+      });
+    },
+    MorrisCharts.prototype.init = function () {
 
-      series: [{
-        name: 'Speed',
-        data: [24],
-        tooltip: {
-          valueSuffix: ' km/h'
-        }
-      }]
+      //peloncito
+      var $data = [
+        @php
+        $i=1;
+        $count=0;
+        $tempe=0;
+        $hum=0;
+        $tempDate=$charts->first()->created_at->format('d F -  H');
+        //@dd($tempDate);
+        @endphp
+        @foreach ($charts as $record)
+        @if($record->created_at->format('d F -  H')==$tempDate)
+        @php
+        $count++;
+        $tempe=$tempe + $record->number1 ;
+        $hum= $hum + $record->number2;
+        @endphp
+        @else
+        {y: '{{$record->created_at->modify('-6 hours')->format('H:i')}}', a: {{ number_format($tempe / $count)}}, b: {{ number_format($hum / $count, 2)}} },
+        @php
+        $count=0;
+        $tempe=0 ;
+        $hum= 0;
+        @endphp
+        @endif
+
+        @php
+        $tempDate=$record->created_at->format('d F -  H');
+        @endphp
+        @endforeach
+      ];
+      this.createLineChart('morris-line-sensors', $data, 'y', ['a', 'b'], ['Humedad %', 'Temperatura C°'], ['#f5b225', '#1b82ec']);
+
+      //creating bar chart
+      var $barData = [
+        {y: '2009', a: 100, b: 90},
+        {y: '2010', a: 75, b: 65},
+        {y: '2011', a: 50, b: 40},
+        {y: '2012', a: 75, b: 65},
+        {y: '2013', a: 50, b: 40},
+        {y: '2014', a: 75, b: 65},
+        {y: '2015', a: 100, b: 90},
+        {y: '2016', a: 90, b: 75}
+      ];
+      this.createBarChart('morris-bar-example', $barData, 'y', ['a', 'b'], ['Series A', 'Series B'], ['#1b82ec','#f5b225']);
+
+      //creating area chart
+      var $areaData = [
+        {y: '2007', a: 0, b: 0, c:0},
+        {y: '2008', a: 150, b: 45, c:15},
+        {y: '2009', a: 60, b: 150, c:195},
+        {y: '2010', a: 180, b: 36, c:21},
+        {y: '2011', a: 90, b: 60, c:360},
+        {y: '2012', a: 75, b: 240, c:120},
+        {y: '2013', a: 30, b: 30, c:30}
+      ];
+      this.createAreaChart('morris-area-example', 0, 0, $areaData, 'y', ['a', 'b', 'c'], ['Series A', 'Series B', 'Series C'], ['#ccc', '#f5b225', '#1b82ec']);
+
+      //creating donut chart
+      var $donutData = [
+        {label: "Download Sales", value: 12},
+        {label: "In-Store Sales", value: 30},
+        {label: "Mail-Order Sales", value: 20}
+      ];
+      this.createDonutChart('morris-donut-example', $donutData, ['#f0f1f4', '#1b82ec', '#f5b225']);
+
+      //creating Stacked chart
+      var $stckedData = [
+        {y: '2005', a: 45, b: 180},
+        {y: '2006', a: 75, b: 65},
+        {y: '2007', a: 100, b: 90},
+        {y: '2008', a: 75, b: 65},
+        {y: '2009', a: 100, b: 90},
+        {y: '2010', a: 75, b: 65},
+        {y: '2011', a: 50, b: 40},
+        {y: '2012', a: 75, b: 65},
+        {y: '2013', a: 50, b: 40},
+        {y: '2014', a: 75, b: 65},
+        {y: '2015', a: 100, b: 90},
+        {y: '2016', a: 80, b: 65}
+      ];
+      this.createStackedChart('morris-bar-stacked', $stckedData, 'y', ['a', 'b'], ['Series A', 'Series B'], ['#1b82ec', '#f0f1f4']);
 
     },
-    // Add some life
-    function (chart) {
-      if (!chart.renderer.forExport) {
-        setInterval(function () {
-          var point = chart.series[0].points[0],
-          newVal,
-          inc = Math.round((Math.random() - 0.5) * 20);
+    //init
+    $.MorrisCharts = new MorrisCharts, $.MorrisCharts.Constructor = MorrisCharts
+  }(window.jQuery),
 
-          newVal = point.y + inc;
-          if (newVal < 0 || newVal > 50) {
-            newVal = point.y - inc;
-          }
-
-          point.update(newVal);
-
-        }, 3000);
-      }
-    });
-  });
+  //initializing
+  function ($) {
+    "use strict";
+    $.MorrisCharts.init();
+  }(window.jQuery);
   </script>
-  <script type="text/javascript">
+  {{--<script type="text/javascript">
   var chart = new Chartist.Line('#smil-animations', {
     labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
     series: [
@@ -354,18 +525,18 @@
   //Simple line chart
   new Chartist.Line('#simple-line-chart1', {
     labels: [
-      @foreach($charts as $chart)
+      @foreach($charts->reverse() as $chart)
       '{{$chart->created_at->modify('-6 hours')->format('H:i')}}',
       @endforeach
     ],
     series: [
       [
-        @foreach($charts as $chart)
-        {{$chart->number1}},
+        @foreach($charts->reverse() as $chart)
+        {{$chart->number1 }} ,
         @endforeach
       ],
       [
-        @foreach($charts as $chart)
+        @foreach($charts->reverse() as $chart)
         {{$chart->number2}},
         @endforeach
       ],
@@ -579,5 +750,5 @@
   });
 
 
-  </script>
+  </script> --}}
 @endsection
