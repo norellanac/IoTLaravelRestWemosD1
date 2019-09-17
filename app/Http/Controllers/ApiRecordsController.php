@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Record;
+use App\User;
+
+use Illuminate\Support\Facades\Mail;
+use App\Mail\AlertMail;
 
 class ApiRecordsController extends Controller
 {
@@ -50,30 +54,29 @@ class ApiRecordsController extends Controller
         $record->device=$request->device;
         $record->save();
 
+        $user=User::find($request->user_id);
         //envia notificacion si la humedad es alta
-        if ($request->number1>=65) {
+        if ($request->num1>=70) {
           $request->string1="Humedad";
-          $request->string2=$request->number1 . "%";
-          $request->number1=65;
-          Mail::to(['norellanac@10x.org'])
+          $request->string2=$request->num1 . " %";
+          Mail::to([$user->email])
           ->cc('1005alexis@gmail.com') // enviar correo con copia
           ->send(new AlertMail($request)); //envia la variables $request a la clase de
         }
         //envia notificacion si la temperatura es alta
-        if ($request->number2>=26) {
+        if ($request->num2>=28) {
           $request->string1="Temperatura";
-          $request->string2=$request->number2 ."C°";
-          $request->number1=65;
-          Mail::to(['norellanac@10x.org'])
+          $request->string2=$request->num2 ." C°";
+          Mail::to([$user->email])
           ->cc('1005alexis@gmail.com') // enviar correo con copia
           ->send(new AlertMail($request)); //envia la variables $request a la clase de
         }
         //envia notificacion si la bateria es baja
-        if ($request->number3<=3.2) {
+        if ($request->num3<=3.1) {
           $request->string1="Bateria";
-          $request->string2=round(($request->number3 -2.7 ) * 59) ."% en el dispositivo: " . $request->device;
+          $request->string2=round(($request->num3 -2.7 ) * 59) ."% en el dispositivo: " . $request->device;
           $request->number1=65;
-          Mail::to(['norellanac@10x.org'])
+          Mail::to([$user->email])
           ->cc('1005alexis@gmail.com') // enviar correo con copia
           ->send(new AlertMail($request)); //envia la variables $request a la clase de
         }

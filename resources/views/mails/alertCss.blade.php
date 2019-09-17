@@ -432,7 +432,7 @@
                                     <td align="left" style="color: #888888; font-size: 14px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 23px;" class="text_color">
                                         <div style="color: #333333; font-size: 14px; font-family: 'Work Sans', Calibri, sans-serif; font-weight: 600; mso-line-height-rule: exactly; line-height: 23px;">
 
-                                            Email us: <br/> <a href="mailto:" style="color: #888888; font-size: 14px; font-family: 'Hind Siliguri', Calibri, Sans-serif; font-weight: 400;">info@10x.org</a>
+                                            Soporte: <br/> <a href="mailto:" style="color: #888888; font-size: 14px; font-family: 'Hind Siliguri', Calibri, Sans-serif; font-weight: 400;">info@10x.org</a>
 
                                         </div>
                                     </td>
@@ -492,7 +492,7 @@
     </table>
     <!-- end section -->
 
-    <!-- footer ====== -->
+    <!-- footer ====== --> {{--
     <table border="0" width="100%" cellpadding="0" cellspacing="0" bgcolor="f4f4f4">
 
         <tr>
@@ -551,7 +551,8 @@
         </tr>
 
     </table>
-    <!-- end footer ====== -->
+
+    --}}<!-- end footer ====== -->
 
 </body>
 
