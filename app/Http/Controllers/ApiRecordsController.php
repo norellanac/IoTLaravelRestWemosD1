@@ -49,6 +49,35 @@ class ApiRecordsController extends Controller
         $record->user_id=$request->user_id;
         $record->device=$request->device;
         $record->save();
+
+        //envia notificacion si la humedad es alta
+        if ($request->number1>=65) {
+          $request->string1="Humedad";
+          $request->string2=$request->number1 . "%";
+          $request->number1=65;
+          Mail::to(['norellanac@10x.org'])
+          ->cc('1005alexis@gmail.com') // enviar correo con copia
+          ->send(new AlertMail($request)); //envia la variables $request a la clase de
+        }
+        //envia notificacion si la temperatura es alta
+        if ($request->number2>=26) {
+          $request->string1="Temperatura";
+          $request->string2=$request->number2 ."C°";
+          $request->number1=65;
+          Mail::to(['norellanac@10x.org'])
+          ->cc('1005alexis@gmail.com') // enviar correo con copia
+          ->send(new AlertMail($request)); //envia la variables $request a la clase de
+        }
+        //envia notificacion si la bateria es baja
+        if ($request->number3<=3.2) {
+          $request->string1="Bateria";
+          $request->string2=round(($request->number3 -2.7 ) * 59) ."% en el dispositivo: " . $request->device;
+          $request->number1=65;
+          Mail::to(['norellanac@10x.org'])
+          ->cc('1005alexis@gmail.com') // enviar correo con copia
+          ->send(new AlertMail($request)); //envia la variables $request a la clase de
+        }
+
         return $record;
     }
 

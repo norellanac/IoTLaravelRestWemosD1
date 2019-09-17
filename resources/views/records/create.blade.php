@@ -171,13 +171,16 @@
                       $hum= $hum + $record->number2;
                       @endphp
                     @else
-                      <tr>
-                        <td>{{ $i++ }}</td>
-                        <td>{{ number_format($tempe / $count)}} %</td>
-                        <td>{{ number_format($hum / $count, 2)}} C°</td>
-                        @php $date=new DateTime( $record->created_at) @endphp
-                        <td>{{$date->modify('-6 hours')->format('d F -  H:i') }}</td>
-                      </tr>
+                      @if($count>0)
+                        <tr>
+                          <td>{{ $i++ }}</td>
+                          <td>{{ number_format($tempe / $count)}} %</td>
+                          <td>{{ number_format($hum / $count, 2)}} C°</td>
+                          @php $date=new DateTime( $record->created_at) @endphp
+                          <td>{{$date->modify('-6 hours')->format('d F -  H:i') }}</td>
+                        </tr>
+                      @endif
+
                       @php
                       $count=0;
                       $tempe=0 ;
@@ -313,7 +316,9 @@
         $hum= $hum + $record->number2;
         @endphp
         @else
+        @if($count>0)
         {y: '{{$record->created_at->modify('-6 hours')->format('H:i')}}', a: {{ number_format($tempe / $count)}}, b: {{ number_format($hum / $count, 2)}} },
+        @endif
         @php
         $count=0;
         $tempe=0 ;
