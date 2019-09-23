@@ -1,4 +1,4 @@
-@extends('layouts.roles.SuperAdmin')
+@extends('layouts.admin')
 
 @section('content')
   @section('tittleSite','IoT 10x Informatica' . auth()->user()->name )
@@ -66,13 +66,13 @@
             </div>
             <div class="collapse  row" id="collapseExample">
 
-              @foreach ($devices as $device)
+              @foreach (auth()->user()->devices as $device)
                 @php
-                $record=App\Record::where('user_id','=', auth()->user()->id)->where('device', '=' , $device->device )->orderBy('id', 'desc')->limit(1)->first()
+                $record=App\Record::where('user_id','=', auth()->user()->id)->where('device', '=' , $device->custom_id )->orderBy('id', 'desc')->limit(1)->first()
                 @endphp
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 mt-3">
                   <div class="shop-card">
-                    <p class="h3 text-dark mb-5"><i class="mdi mdi-access-point-network "></i>  Dispositivo {{$device->device}}:</p>
+                    <p class="h3 text-dark mb-5"><i class="mdi mdi-access-point-network "></i>  {{$device->name}}:</p>
                     <div class="row">
                       <div class="col-8">
                         <span class="h5"><i class="ion-thermometer "></i>  {{$record->string2}}:</span>

@@ -16,30 +16,29 @@
                 @endif
               @endforeach
             </div>
-            <table id="datatable-buttons" class="text-center table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+            <table id="datatable" class="text-center table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Humedad</th>
-                  <th>Temperatura</th>
-                  <th>fecha</th>
-                  <th>Bateria</th>
-                  <th>device</th>
+                  <th>Dispositivo</th>
+                  <th>Ubicación</th>
+                  <th>Creado/Actualizado</th>
+                  <th>id</th>
+                  <th>Opciones</th>
                 </tr>
               </thead>
               <tbody>
                 @php
                 $i=1;
                 @endphp
-                @foreach ($records as $record)
+                @foreach ($devices as $device)
                   <tr>
                     <td>{{ $i++ }}</td>
-                    <td>{{ $record->number1 }} %</td>
-                    <td>{{ $record->number2 }} C°</td>
-                    @php $date=new DateTime( $record->created_at) @endphp
-                    <td>{{$date->modify('-6 hours')->format('d F -  H:i') }}</td>
-                    <td>{{round(($record->number3 -2.7 ) * 59) }}%</td>
-                    <td>{{ $record->device }}</td>
+                    <td>{{ $device->name }} </td>
+                    <td>{{ $device->location }} </td>
+                    <td>{{$device->updated_at->modify('-6 hours')->format('d F -  H:i') }}</td>
+                    <td>{{$device->custom_id }}</td>
+                    <td> <a href="{{url('device/'. $device->id .'/edit')}}" class="btn btn-outline-primary"> Editar <i class="mdi mdi-square-edit-outline"></i>   </a> </td>
                   </tr>
                 @endforeach
               </tbody>

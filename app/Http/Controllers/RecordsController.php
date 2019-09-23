@@ -31,6 +31,13 @@ class RecordsController extends Controller
     public function create()
     {
         //
+        if (auth()->user()) {
+          //
+          $user=auth()->user();
+          if (!$user->hasAnyRole(['User', 'Admin', 'SuperAdmin'])){
+              $user->syncRoles(['User']);
+          }
+        }
         $records=Record::where('user_id','=', auth()->user()->id)->orderBy('id', 'desc')->limit(1)->get();
         $charts=Record::where('user_id','=', auth()->user()->id)->orderBy('id', 'desc')->limit(25)->get();
         //dd($charts);

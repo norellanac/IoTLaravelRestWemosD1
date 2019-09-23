@@ -5,7 +5,8 @@
     <div class="card-body">
 
       <h3 class="text-center m-0">
-        <a href="index.html" class="logo logo-admin"><img src="assets/images/logo.png" height="30" alt="logo"></a>
+        <a href="index.html" class="logo logo-admin"><img src="https://image.flaticon.com/icons/svg/2016/2016736.svg" height="30" alt="logo"></a>
+        IOT
       </h3>
 
       <div class="p-3">

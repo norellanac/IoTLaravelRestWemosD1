@@ -90,7 +90,7 @@
         <div class="slimscroll-menu" id="remove-scroll">
           <div id="sidebar-menu">
             <ul class="metismenu" id="side-menu">
-              @yield('menu')
+              @include('layouts.roles.'.  auth()->user()->getRoleNames()[0]  )
             </ul>
           </div>
           <div class="clearfix"></div>

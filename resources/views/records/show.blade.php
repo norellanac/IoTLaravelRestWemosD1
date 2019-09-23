@@ -1,4 +1,4 @@
-@extends('layouts.roles.SuperAdmin')
+@extends('layouts.admin')
 
 @section('content')
   @section('tittleSite','IoT 10x Informatica')

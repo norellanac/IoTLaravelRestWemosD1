@@ -20,7 +20,9 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/search', 'HomeController@search')->name('search');
 Route::post('/search', 'HomeController@show')->name('search');
-Route::resource('/records', 'RecordsController')->middleware('auth');
+Route::resource('/records', 'RecordsController')->middleware('auth')->middleware('role:SuperAdmin|Admin|User');
+Route::resource('/device', 'DevicesController')->middleware('auth')->middleware('role:SuperAdmin|Admin|User');
+Route::get('/device/create', 'DevicesController@create')->middleware('auth')->middleware('role:SuperAdmin|Admin');
 
 Route::post('/reporte/', 'ReportsController@index')->middleware('auth');
 Route::post('/reporte/fechas/', 'ReportsController@fechas')->middleware('auth');
