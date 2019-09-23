@@ -56,7 +56,7 @@
           <li class="dropdown notification-list">
             <div class="dropdown notification-list nav-pro-img">
               <a class="dropdown-toggle nav-link arrow-none waves-effect nav-user waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                <img src="http://10x.org/wp-content/uploads/2019/07/Webp.net-resizeimage-9.png" alt="user" class="rounded-square">
+                <img src="https://image.flaticon.com/icons/svg/145/145843.svg" alt="user" class="rounded-square">
               </a>
               <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
                 @if(auth()->check())
