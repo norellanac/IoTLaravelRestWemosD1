@@ -317,7 +317,7 @@
         @endphp
         @else
         @if($count>0)
-        {y: '{{$record->created_at->modify('-6 hours')->format('H:i')}}', a: {{ number_format($tempe / $count)}}, b: {{ number_format($hum / $count, 2)}} },
+        {y: '{{$record->created_at->modify('-6 hours')->format('H:i d-M')}}', a: {{ number_format($tempe / $count)}}, b: {{ number_format($hum / $count, 2)}} },
         @endif
         @php
         $count=0;
