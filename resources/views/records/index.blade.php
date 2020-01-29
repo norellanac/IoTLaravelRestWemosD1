@@ -39,7 +39,7 @@
                     @php $date=new DateTime( $record->created_at) @endphp
                     <td>{{$date->modify('-6 hours')->format('d F -  H:i') }}</td>
                     <td>{{round(($record->number3 -2.7 ) * 59) }}%</td>
-                    <td>{{ $record->device }}</td>
+                    <td>{{ $record->deviceInfo->location}}</td>
                   </tr>
                 @endforeach
               </tbody>

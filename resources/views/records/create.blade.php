@@ -68,7 +68,7 @@
 
               @foreach (auth()->user()->devices as $device)
                 @php
-                $record=App\Record::where('user_id','=', auth()->user()->id)->where('device', '=' , $device->custom_id )->orderBy('id', 'desc')->limit(1)->first()
+                $record=App\Record::where('user_id','=', auth()->user()->id)->where('device', '=' , $device->id )->orderBy('id', 'desc')->limit(1)->first()
                 @endphp
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 mt-3">
                   <div class="shop-card">
@@ -122,14 +122,14 @@
               <div class="card m-b-30">
                 <div class="card-body">
 
-
+                  @if ($charts->first())
                   <ul class="list-inline widget-chart m-t-20 m-b-15 text-center">
                     <li class="list-inline-item">
                       <h5 class="mb-0">{{$charts->first()->number1}} %</h5>
                       <p class="text-muted">Humedad</p>
                     </li>
                     <li class="list-inline-item">
-                      <h5 class="mb-0">{{$charts->first()->number1}} C°</h5>
+                      <h5 class="mb-0">{{$charts->first()->number2}} C°</h5>
                       <p class="text-muted">Temperatura</p>
                     </li>
                     <li class="list-inline-item">
@@ -139,7 +139,7 @@
                   </ul>
 
                   <div id="morris-line-sensors" class="morris-chart-height morris-charts"></div>
-
+                  @endif
                 </div>
               </div>
             </div>
@@ -160,7 +160,10 @@
                   $count=0;
                   $tempe=0;
                   $hum=0;
-                  $tempDate=$charts->first()->created_at->format('d F -  H');
+                  if($charts->first()){
+                    $tempDate=$charts->first()->created_at->format('d F -  H');
+                  }
+                  
                   //@dd($tempDate);
                   @endphp
                   @foreach ($charts as $record)
@@ -305,7 +308,10 @@
         $count=0;
         $tempe=0;
         $hum=0;
-        $tempDate=$charts->first()->created_at->format('d F -  H');
+        if ($charts->first()){
+          $tempDate=$charts->first()->created_at->format('d F -  H');
+        }
+        
         //@dd($tempDate);
         @endphp
         @foreach ($charts as $record)
