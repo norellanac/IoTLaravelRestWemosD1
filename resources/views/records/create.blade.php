@@ -163,7 +163,7 @@
                   if($charts->first()){
                     $tempDate=$charts->first()->created_at->format('d F -  H');
                   }
-                  
+
                   //@dd($tempDate);
                   @endphp
                   @foreach ($charts as $record)
@@ -311,7 +311,7 @@
         if ($charts->first()){
           $tempDate=$charts->first()->created_at->format('d F -  H');
         }
-        
+
         //@dd($tempDate);
         @endphp
         @foreach ($charts as $record)
