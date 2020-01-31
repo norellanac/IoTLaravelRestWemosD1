@@ -51,33 +51,24 @@
                       @enderror
                     </div>
 
-                    <div class="form-group">
-                      <label for="location">Ubicación</label>
-                      <input type="text"  id="location"  name="location" placeholder="Ubicación" class="form-control @error('location') is-invalid @enderror" name="location" value="{{ old('location') }}"  autocomplete="location" autofocus>
-                        @error('location')
-                          <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                          </span>
-                        @enderror
-                      </div>
+
 
 
 
                       <div class="row">
                         <div class="form-group col-6">
-                          <label class="control-label">Usuario o empresa</label>
-                          <select class="form-control select2" name="user_id">
-                            <option value="" selected>Elegir usuario o empresa </option>
-                            @foreach ($users as $user)
-                              <option value="{{$user->id}}">{{$user->name}}</option>
-                            @endforeach
-
-                          </select>
-                        </div>
+                          <label for="location">Ubicación</label>
+                          <input type="text"  id="location"  name="location" placeholder="Ubicación" class="form-control @error('location') is-invalid @enderror" name="location" value="{{ old('location') }}"  autocomplete="location" autofocus>
+                            @error('location')
+                              <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                              </span>
+                            @enderror
+                          </div>
 
                         <div class="form-group col-6">
                           <label for="custom_id">id personalizado</label>
-                          <input type="text"  id="custom_id"  name="custom_id" placeholder="id personalizado" class="form-control @error('location') is-invalid @enderror" name="location" value="{{ old('location') }}"  autocomplete="location" autofocus>
+                          <input type="number"  id="custom_id"  name="custom_id" placeholder="id personalizado" class="form-control @error('location') is-invalid @enderror" name="location" value="{{ old('location') }}"  autocomplete="location" autofocus>
 
                             @error('location')
                               <span class="invalid-feedback" role="alert">

@@ -1,5 +1,4 @@
 @extends('layouts.admin')
-
 @section('content')
   @section('tittleSite','IoT 10x Informatica' . auth()->user()->name )
   @section('page_description','Bitacora de registros')
@@ -15,6 +14,7 @@
   }
 
   </style>
+  <meta http-equiv="refresh" content="300"/>
   <div class="page-content-wrapper">
     <div class="row">
       <div class="col-12">
@@ -58,24 +58,25 @@
             @endforeach
             <div class="card-body">
               <p>
-                <a class="btn btn-outline-primary mo-mb-2 btn-block" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                <a class="btn btn-outline-primary mo-mb-2 btn-block" data-toggle="collapse" href="#collapseExample" aria-expanded="true" aria-controls="collapseExample">
                   Mis dispositivos <i class="ion-arrow-down-b "></i>
                 </a>
               </p>
 
             </div>
-            <div class="collapse  row" id="collapseExample">
+            <div class="collapse show  row" id="collapseExample">
 
               @foreach (auth()->user()->devices as $device)
                 @php
                 $record=App\Record::where('user_id','=', auth()->user()->id)->where('device', '=' , $device->id )->orderBy('id', 'desc')->limit(1)->first()
                 @endphp
+                @if($record)
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 mt-3">
                   <div class="shop-card">
                     <p class="h3 text-dark mb-5"><i class="mdi mdi-access-point-network "></i>  {{$device->name}}:</p>
                     <div class="row">
                       <div class="col-8">
-                        <span class="h5"><i class="ion-thermometer "></i>  {{$record->string2}}:</span>
+                        <span class="h5"><i class="ion-thermometer "></i>  Temperatura:</span>
                       </div>
                       <div class="col-3">
                         <p class="h5"><span class="badge badge-warning"> {{$record->number2}} C°</span></p>
@@ -83,7 +84,7 @@
                     </div>
                     <div class="row">
                       <div class="col-8">
-                        <span class="h5"><i class="ion-waterdrop  "></i>  {{$record->string1}}:</span>
+                        <span class="h5"><i class="ion-waterdrop  "></i>  Humedad:</span>
                       </div>
                       <div class="col-3">
                         <p class="h5"><span class="badge badge-primary">{{$record->number1}} %</span></p>
@@ -102,11 +103,12 @@
                         <span class="h6"><i class="ion-clock  "></i>  {{$record->created_at->modify('-6 hours')->format('d F, y H:i')}}</span>
                       </div>
                       <div class="col-3">
-                        <a href="{{url('/records/' . $device->device)}}" class=" btn-light waves-effect"> <i class="mdi mdi-calendar-clock  "></i>.  Historial</a>
+                        <a href="{{url('/records/' . $device->id)}}" class=" btn-light waves-effect"> <i class="mdi mdi-calendar-clock  "></i>.  Historial</a>
                       </div>
                     </div>
                   </div>
                 </div>
+              @endif
               @endforeach
             </div>
 
@@ -119,7 +121,7 @@
             </div>--}}
 
             <div class="">
-              <div class="card m-b-30">
+              <div class="card m-b-30" style="margin-top:50px">
                 <div class="card-body">
 
                   @if ($charts->first())
@@ -137,7 +139,6 @@
                       <p class="text-muted">{{$charts->first()->created_at->modify('-6 hours')->format('d F, Y')}}</p>
                     </li>
                   </ul>
-
                   <div id="morris-line-sensors" class="morris-chart-height morris-charts"></div>
                   @endif
                 </div>

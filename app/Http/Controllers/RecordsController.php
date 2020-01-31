@@ -76,7 +76,7 @@ class RecordsController extends Controller
     public function show($id)
     {
         //
-        $records=Record::where('user_id','=', auth()->user()->id )->where('device', '=', $id)->orderBy('created_at', 'desc')->limit(1)->get();
+        $records=Record::where('user_id','=', auth()->user()->id )->where('device', '=', $id)->orderBy('created_at', 'desc')->get();
         //$last=Record::where('id','>', 0)->orderBy('created_at', 'desc')->limit(1)->get();
         //dd($records);
         $charts=Record::where('user_id','=', auth()->user()->id)->where('device', '=', $id)->orderBy('id', 'desc')->limit(20)->get();

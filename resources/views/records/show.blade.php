@@ -2,7 +2,7 @@
 
 @section('content')
   @section('tittleSite','IoT 10x Informatica')
-  @section('page_description','Bitacora de registros')
+  @section('page_description','Detalle de dispositivo')
   <style type="text/css">
 
   .shop-card {
@@ -15,6 +15,7 @@
   }
 
   </style>
+  <meta http-equiv="refresh" content="300"/>
   <div class="page-content-wrapper">
     <div class="row">
       <div class="col-12">
@@ -22,27 +23,26 @@
           <div class="card-body">
             <div class="row">
               @if(sizeof( $records)>0)
-                @foreach($records as $record)
                   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mt-3">
                     <div class="shop-card">
                       <div class="row">
 
                         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 mt-3">
 
-                          <p class="h2"> Dispositivo <span class="badge badge-primary mb-2">{{$record->device}} </span></p>
+                          <p class="h2"> {{$records->first()->deviceInfo->location}}  </p>
                           <div class="offset-1  progress progress-bar-animated m-b-10 " style="height: 5em;">
-                            <div class="progress-bar progress-bar-striped  progress-bar-animated bg-success text-center" role="progressbar" style='width: {{round(($record->number3 -2.7 ) * 59)}}%;' aria-valuemin="0" aria-valuemax="100"><h3 class="">{{round(($record->number3 -2.7 ) * 59) }}% <i class="mdi mdi-battery-charging"></i></h3>  </div>
+                            <div class="progress-bar progress-bar-striped  progress-bar-animated bg-success text-center" role="progressbar" style='width: {{round(($records->first()->number3 -2.7 ) * 59)}}%;' aria-valuemin="0" aria-valuemax="100"><h3 class="">{{round(($records->first()->number3 -2.7 ) * 59) }}% <i class="mdi mdi-battery-charging"></i></h3>  </div>
                           </div>
                           <div class="desc mt-5">
-                            Ultima lectura: {{$record->created_at->format('d F, Y H:i')}}
+                            Ultima lectura: {{$records->first()->created_at->modify('-6 hours')->format('d F, y H:i')}}
                           </div>
                         </div>
                         <div class=" col-xs-12 col-sm-12 col-md-4 col-lg-4 mt-3">
-                          <p class="h2"> {{$record->string1}} <br> <span class="badge badge-primary">{{$record->number1}} %</span></p>
+                          <p class="h2"> {{$records->first()->string1}} <br> <span class="badge badge-primary">{{$records->first()->number1}} %</span></p>
                           <img src="https://image.flaticon.com/icons/svg/1809/1809570.svg" class="mx-auto d-block" width="30%">
                         </div>
                         <div class=" col-xs-12 col-sm-12 col-md-4 col-lg-4 mt-3">
-                          <p class="h2"> {{$record->string2}} <br> <span class="badge badge-danger">{{$record->number2}} C°</span></p>
+                          <p class="h2"> {{$records->first()->string2}} <br> <span class="badge badge-danger">{{$records->first()->number2}} C°</span></p>
                           <img src="https://image.flaticon.com/icons/svg/1113/1113779.svg" class="mx-auto d-block" width="30%">
                         </div>
                       </div>
@@ -77,7 +77,6 @@
 
             </div>
           </div>
-        @endforeach
       @else
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mt-3">
           <div class="shop-card">
@@ -90,7 +89,7 @@
                   <div class="progress-bar progress-bar-striped  progress-bar-animated bg-success text-center" role="progressbar" style='width: {{100}}%;' aria-valuemin="0" aria-valuemax="100"><h3 class="">100% <i class="mdi mdi-battery-charging"></i></h3>  </div>
                 </div>
                 <div class="desc mt-5">
-                  Ultima lectura: Sin información}}
+                  Ultima lectura: Sin información
                 </div>
               </div>
               <div class=" col-xs-12 col-sm-12 col-md-4 col-lg-4 mt-3">
@@ -122,6 +121,36 @@
   </div>
   <div id="simple-line-chart1" class="ct-chart ct-golden-section "></div>
 </div>
+</div>
+<div class="col-12" style="margin-top:-600px">
+  <table id="datatable-buttons" class="text-center table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Humedad</th>
+        <th>Temperatura</th>
+        <th>fecha</th>
+        <th>Bateria</th>
+        <th>device</th>
+      </tr>
+    </thead>
+    <tbody>
+      @php
+      $i=1;
+      @endphp
+      @foreach ($records as $record)
+        <tr>
+          <td>{{ $i++ }}</td>
+          <td>{{ $record->number1 }} %</td>
+          <td>{{ $record->number2 }} C°</td>
+          @php $date=new DateTime( $record->created_at) @endphp
+          <td>{{$date->modify('-6 hours')->format('d F -  H:i') }}</td>
+          <td>{{round(($record->number3 -2.7 ) * 59) }}%</td>
+          <td>{{ $record->deviceInfo->location}}</td>
+        </tr>
+      @endforeach
+    </tbody>
+  </table>
 </div>
 </div>
 </div>

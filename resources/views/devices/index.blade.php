@@ -21,9 +21,10 @@
                 <tr>
                   <th>#</th>
                   <th>Dispositivo</th>
+                  <th>id</th>
                   <th>Ubicación</th>
                   <th>Creado/Actualizado</th>
-                  <th>id</th>
+                  <th>Datos</th>
                   <th>Opciones</th>
                 </tr>
               </thead>
@@ -35,9 +36,10 @@
                   <tr>
                     <td>{{ $i++ }}</td>
                     <td>{{ $device->name }} </td>
+                    <td>{{ $device->id }} </td>
                     <td>{{ $device->location }} </td>
                     <td>{{$device->updated_at->modify('-6 hours')->format('d F -  H:i') }}</td>
-                    <td>{{$device->custom_id }}</td>
+                    <td> <a href="{{url('records/'. $device->id)}}" class="btn btn-outline-dark"> Ver Lecturas <i class="mdi mdi-clipboard-outline "></i>   </a> </td>
                     <td> <a href="{{url('device/'. $device->id .'/edit')}}" class="btn btn-outline-primary"> Editar <i class="mdi mdi-square-edit-outline"></i>   </a> </td>
                   </tr>
                 @endforeach
