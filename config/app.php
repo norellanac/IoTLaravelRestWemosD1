@@ -163,6 +163,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         // Spatie
         Spatie\Permission\PermissionServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
 
         /*
          * Package Service Providers...
