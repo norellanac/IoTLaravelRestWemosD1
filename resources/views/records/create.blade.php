@@ -1,216 +1,218 @@
 @extends('layouts.admin')
 @section('content')
-  @section('tittleSite','IoT 10x Informatica' . auth()->user()->name )
-  @section('page_description','Bitacora de registros')
-  <style type="text/css">
-
+@section('tittleSite','IoT 10x Informatica' . auth()->user()->name )
+@section('page_description','Bitacora de registros')
+<style type="text/css">
   .shop-card {
     background: #f5f5f5;
-    box-shadow: 0 10px 20px rgba(0,0,0,.3);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, .3);
     overflow: hidden;
     border-radius: 10px;
     padding: 25px;
     text-align: center;
   }
+</style>
+<meta http-equiv="refresh" content="300" />
+<div class="page-content-wrapper">
+  <div class="row">
+    <div class="col-12">
+      <div class="card m-b-20">
+        <div class="card-body">
+          @foreach ($records as $record)
+          <div class="row">
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 mt-3">
+              <div class="shop-card">
+                <p class="h2"> {{$record->string2}} <span class="badge badge-warning">{{$record->number2}} C°</span></p>
+                <div class="desc">
+                  {{$record->created_at->modify('-6 hours')->format('d F, y H:i')}}
+                </div>
+                <div class="slider ">
+                  {{--                     <div id="container" style="min-width: 100%; max-width: 100%; height: 300px; margin: 0 auto"></div>--}}
+                  <img src="https://image.flaticon.com/icons/svg/1113/1113779.svg" class="mx-auto d-block" width="50%">
+                </div>
 
-  </style>
-  <meta http-equiv="refresh" content="300"/>
-  <div class="page-content-wrapper">
-    <div class="row">
-      <div class="col-12">
-        <div class="card m-b-20">
+                <form action="{{url('/tracking')}}" method="POST">
+                  @csrf
+                  <input type="hidden" class="btn btn-block btn-lg btn-warning" value="Por enviar">
+                  <input type="hidden" name="status_del" value="2">
+                  <input type="hidden" name="selct" value="3">
+                </form>
+              </div>
+            </div>
+
+
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 mt-3">
+              <div class="shop-card  justify-content-center align-items-center">
+                <p class="h2"> {{$record->string1}} <span class="badge badge-primary">{{$record->number1}} %</span></p>
+                <div class="desc">
+                  {{$record->created_at->modify('-6 hours')->format('d F, y H:i')}}
+                </div>
+                <div class="slider">
+                  <img src="https://image.flaticon.com/icons/svg/1809/1809570.svg" class="mx-auto d-block" width="50%">
+                </div>
+              </div>
+            </div>
+          </div>
+          @endforeach
           <div class="card-body">
-            @foreach ($records as $record)
-              <div class="row">
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 mt-3">
-                  <div class="shop-card">
-                    <p class="h2"> {{$record->string2}} <span class="badge badge-warning">{{$record->number2}} C°</span></p>
-                    <div class="desc">
-                      {{$record->created_at->modify('-6 hours')->format('d F, y H:i')}}
-                    </div>
-                    <div class="slider ">
-                      {{--                     <div id="container" style="min-width: 100%; max-width: 100%; height: 300px; margin: 0 auto"></div>--}}
-                      <img src="https://image.flaticon.com/icons/svg/1113/1113779.svg" class="mx-auto d-block" width="50%">
-                    </div>
-
-                    <form action="{{url('/tracking')}}" method="POST" >
-                      @csrf
-                      <input type="hidden" class="btn btn-block btn-lg btn-warning" value="Por enviar">
-                      <input type="hidden" name="status_del" value="2">
-                      <input type="hidden" name="selct" value="3">
-                    </form>
-                  </div>
-                </div>
-
-
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 mt-3">
-                  <div class="shop-card  justify-content-center align-items-center">
-                    <p class="h2"> {{$record->string1}} <span class="badge badge-primary">{{$record->number1}} %</span></p>
-                    <div class="desc">
-                      {{$record->created_at->modify('-6 hours')->format('d F, y H:i')}}
-                    </div>
-                    <div class="slider">
-                      <img src="https://image.flaticon.com/icons/svg/1809/1809570.svg" class="mx-auto d-block" width="50%">
-                    </div>
-                  </div>
-                </div>
-              </div>
-            @endforeach
-            <div class="card-body">
-              <p>
-                <a class="btn btn-outline-primary mo-mb-2 btn-block" data-toggle="collapse" href="#collapseExample" aria-expanded="true" aria-controls="collapseExample">
-                  Mis dispositivos <i class="ion-arrow-down-b "></i>
-                </a>
-              </p>
-
-            </div>
-            <div class="collapse show  row" id="collapseExample">
-
-              @foreach (auth()->user()->devices as $device)
-                @php
-                $record=App\Record::where('user_id','=', auth()->user()->id)->where('device', '=' , $device->id )->orderBy('id', 'desc')->limit(1)->first()
-                @endphp
-                @if($record)
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 mt-3">
-                  <div class="shop-card">
-                    <p class="h3 text-dark mb-5"><i class="mdi mdi-access-point-network "></i>  {{$device->name}}:</p>
-                    <div class="row">
-                      <div class="col-8">
-                        <span class="h5"><i class="ion-thermometer "></i>  Temperatura:</span>
-                      </div>
-                      <div class="col-3">
-                        <p class="h5"><span class="badge badge-warning"> {{$record->number2}} C°</span></p>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-8">
-                        <span class="h5"><i class="ion-waterdrop  "></i>  Humedad:</span>
-                      </div>
-                      <div class="col-3">
-                        <p class="h5"><span class="badge badge-primary">{{$record->number1}} %</span></p>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-8">
-                        <span class="h5"><i class="ion-battery-half  "></i>  Batería:</span>
-                      </div>
-                      <div class="col-3">
-                        <p class="h5"><span class="badge badge-success">{{round(($record->number3 -2.7 ) * 59)}}%</span></p>
-                      </div>
-                    </div>
-                    <div class="row mt-3">
-                      <div class="col-8">
-                        <span class="h6"><i class="ion-clock  "></i>  {{$record->created_at->modify('-6 hours')->format('d F, y H:i')}}</span>
-                      </div>
-                      <div class="col-3">
-                        <a href="{{url('/records/' . $device->id)}}" class=" btn-light waves-effect"> <i class="mdi mdi-calendar-clock  "></i>.  Historial</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              @endif
-              @endforeach
-            </div>
-
-            {{--}}<div class="card-body mt-5">
-
-              <h4 class="mt-0 header-title">Ultimas lecturas</h4>
-
-              <div id="simple-line-chart1" class="ct-chart ct-golden-section"></div>
-
-            </div>--}}
-
-            <div class="">
-              <div class="card m-b-30" style="margin-top:50px">
-                <div class="card-body">
-
-                  @if ($charts->first())
-                  <ul class="list-inline widget-chart m-t-20 m-b-15 text-center">
-                    <li class="list-inline-item">
-                      <h5 class="mb-0">{{$charts->first()->number1}} %</h5>
-                      <p class="text-muted">Humedad</p>
-                    </li>
-                    <li class="list-inline-item">
-                      <h5 class="mb-0">{{$charts->first()->number2}} C°</h5>
-                      <p class="text-muted">Temperatura</p>
-                    </li>
-                    <li class="list-inline-item">
-                      <h5 class="mb-0">{{$charts->first()->created_at->modify('-6 hours')->format('H:i')}} Horas</h5>
-                      <p class="text-muted">{{$charts->first()->created_at->modify('-6 hours')->format('d F, Y')}}</p>
-                    </li>
-                  </ul>
-                  <div id="morris-line-sensors" class="morris-chart-height morris-charts"></div>
-                  @endif
-                </div>
-              </div>
-            </div>
-
-            <div class="">
-              <table id="datatable-buttons" class="text-center table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Humedad</th>
-                    <th>Temperatura</th>
-                    <th>fecha</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @php
-                  $i=1;
-                  $count=0;
-                  $tempe=0;
-                  $hum=0;
-                  if($charts->first()){
-                    $tempDate=$charts->first()->created_at->format('d F -  H');
-                  }
-
-                  //@dd($tempDate);
-                  @endphp
-                  @foreach ($charts as $record)
-                    @if($record->created_at->format('d F -  H')==$tempDate)
-                      @php
-                      $count++;
-                      $tempe=$tempe + $record->number1 ;
-                      $hum= $hum + $record->number2;
-                      @endphp
-                    @else
-                      @if($count>0)
-                        <tr>
-                          <td>{{ $i++ }}</td>
-                          <td>{{ number_format($tempe / $count)}} %</td>
-                          <td>{{ number_format($hum / $count, 2)}} C°</td>
-                          @php $date=new DateTime( $record->created_at) @endphp
-                          <td>{{$date->modify('-6 hours')->format('d F -  H:i') }}</td>
-                        </tr>
-                      @endif
-
-                      @php
-                      $count=0;
-                      $tempe=0 ;
-                      $hum= 0;
-                      @endphp
-                    @endif
-
-                    @php
-                    $tempDate=$record->created_at->format('d F -  H');
-                    @endphp
-                  @endforeach
-                </tbody>
-              </table>
-
-            </div>
+            <p>
+              <a class="btn btn-outline-primary mo-mb-2 btn-block" data-toggle="collapse" href="#collapseExample"
+                aria-expanded="true" aria-controls="collapseExample">
+                Mis dispositivos <i class="ion-arrow-down-b "></i>
+              </a>
+            </p>
 
           </div>
+          <div class="collapse show  row" id="collapseExample">
+            @foreach (auth()->user()->devices as $device)
+            @php
+            $record=App\Record::where('user_id','=', auth()->user()->id)->where('device', '=' , $device->custom_id
+            )->orderBy('id', 'desc')->first();
+            @endphp
+            @if($record)
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 mt-3">
+              <div class="shop-card">
+                <p class="h3 text-dark mb-5"><i class="mdi mdi-access-point-network "></i> {{$device->name}}:</p>
+                <div class="row">
+                  <div class="col-8">
+                    <span class="h5"><i class="ion-thermometer "></i> Temperatura:</span>
+                  </div>
+                  <div class="col-3">
+                    <p class="h5"><span class="badge badge-warning"> {{$record->number2}} C°</span></p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-8">
+                    <span class="h5"><i class="ion-waterdrop  "></i> Humedad:</span>
+                  </div>
+                  <div class="col-3">
+                    <p class="h5"><span class="badge badge-primary">{{$record->number1}} %</span></p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-8">
+                    <span class="h5"><i class="ion-battery-half  "></i> Batería:</span>
+                  </div>
+                  <div class="col-3">
+                    <p class="h5"><span class="badge badge-success">{{round(($record->number3 -2.7 ) * 59)}}%</span></p>
+                  </div>
+                </div>
+                <div class="row mt-3">
+                  <div class="col-8">
+                    <span class="h6"><i class="ion-clock  "></i>
+                      {{$record->created_at->modify('-6 hours')->format('d F, y H:i')}}</span>
+                  </div>
+                  <div class="col-3">
+                    <a href="{{url('/records/' . $device->custom_id)}}" class=" btn-light waves-effect"> <i
+                        class="mdi mdi-calendar-clock  "></i>. Historial</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            @endif
+            @endforeach
+          </div>
+
+          {{--}}<div class="card-body mt-5">
+
+            <h4 class="mt-0 header-title">Ultimas lecturas</h4>
+
+            <div id="simple-line-chart1" class="ct-chart ct-golden-section"></div>
+
+          </div>--}}
+
+          <div class="">
+            <div class="card m-b-30" style="margin-top:50px">
+              <div class="card-body">
+
+                @if ($charts->first())
+                <ul class="list-inline widget-chart m-t-20 m-b-15 text-center">
+                  <li class="list-inline-item">
+                    <h5 class="mb-0">{{$charts->first()->number1}} %</h5>
+                    <p class="text-muted">Humedad</p>
+                  </li>
+                  <li class="list-inline-item">
+                    <h5 class="mb-0">{{$charts->first()->number2}} C°</h5>
+                    <p class="text-muted">Temperatura</p>
+                  </li>
+                  <li class="list-inline-item">
+                    <h5 class="mb-0">{{$charts->first()->created_at->modify('-6 hours')->format('H:i')}} Horas</h5>
+                    <p class="text-muted">{{$charts->first()->created_at->modify('-6 hours')->format('d F, Y')}}</p>
+                  </li>
+                </ul>
+                <div id="morris-line-sensors" class="morris-chart-height morris-charts"></div>
+                @endif
+              </div>
+            </div>
+          </div>
+
+          <div class="">
+            <table id="datatable-buttons" class="text-center table table-striped table-bordered dt-responsive nowrap"
+              style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Humedad</th>
+                  <th>Temperatura</th>
+                  <th>fecha</th>
+                </tr>
+              </thead>
+              <tbody>
+                @php
+                $i=1;
+                $count=0;
+                $tempe=0;
+                $hum=0;
+                if($charts->first()){
+                $tempDate=$charts->first()->created_at->format('d F - H');
+                }
+
+                //@dd($tempDate);
+                @endphp
+                @foreach ($charts as $record)
+                @if($record->created_at->format('d F - H')==$tempDate)
+                @php
+                $count++;
+                $tempe=$tempe + $record->number1 ;
+                $hum= $hum + $record->number2;
+                @endphp
+                @else
+                @if($count>0)
+                <tr>
+                  <td>{{ $i++ }}</td>
+                  <td>{{ number_format($tempe / $count)}} %</td>
+                  <td>{{ number_format($hum / $count, 2)}} C°</td>
+                  @php $date=new DateTime( $record->created_at) @endphp
+                  <td>{{$date->modify('-6 hours')->format('d F -  H:i') }}</td>
+                </tr>
+                @endif
+
+                @php
+                $count=0;
+                $tempe=0 ;
+                $hum= 0;
+                @endphp
+                @endif
+
+                @php
+                $tempDate=$record->created_at->format('d F - H');
+                @endphp
+                @endforeach
+              </tbody>
+            </table>
+
+          </div>
+
         </div>
       </div>
     </div>
   </div>
+</div>
 @endsection
 @section('sectionJS')
-  <script src="https://code.highcharts.com/highcharts.js"></script>
-  <script src="https://code.highcharts.com/highcharts-more.js"></script>
-  <script type="text/javascript">
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script type="text/javascript">
   /*
   Template Name: Agroxa - Responsive Bootstrap 4 Admin Dashboard
   Author: Themesbrand
@@ -400,8 +402,8 @@
     "use strict";
     $.MorrisCharts.init();
   }(window.jQuery);
-  </script>
-  {{--<script type="text/javascript">
+</script>
+{{--<script type="text/javascript">
   var chart = new Chartist.Line('#smil-animations', {
     labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
     series: [
@@ -539,228 +541,229 @@
     labels: [
       @foreach($charts->reverse() as $chart)
       '{{$chart->created_at->modify('-6 hours')->format('H:i')}}',
-      @endforeach
-    ],
-    series: [
-      [
-        @foreach($charts->reverse() as $chart)
-        {{$chart->number1 }} ,
-        @endforeach
-      ],
-      [
-        @foreach($charts->reverse() as $chart)
-        {{$chart->number2}},
-        @endforeach
-      ],
-    ]
-  }, {
-    fullWidth: true,
-    chartPadding: {
-      right: 40
-    },
-    plugins: [
-      Chartist.plugins.tooltip()
-    ]
-  });
+@endforeach
+],
+series: [
+[
+@foreach($charts->reverse() as $chart)
+{{$chart->number1 }} ,
+@endforeach
+],
+[
+@foreach($charts->reverse() as $chart)
+{{$chart->number2}},
+@endforeach
+],
+]
+}, {
+fullWidth: true,
+chartPadding: {
+right: 40
+},
+plugins: [
+Chartist.plugins.tooltip()
+]
+});
 
 
 
 
-  //Line Scatter Diagram
-  var times = function(n) {
-    return Array.apply(null, new Array(n));
-  };
+//Line Scatter Diagram
+var times = function(n) {
+return Array.apply(null, new Array(n));
+};
 
-  var data = times(52).map(Math.random).reduce(function(data, rnd, index) {
-    data.labels.push(index + 1);
-    data.series.forEach(function(series) {
-      series.push(Math.random() * 100)
-    });
+var data = times(52).map(Math.random).reduce(function(data, rnd, index) {
+data.labels.push(index + 1);
+data.series.forEach(function(series) {
+series.push(Math.random() * 100)
+});
 
-    return data;
-  }, {
-    labels: [],
-    series: times(4).map(function() { return new Array() })
-  });
+return data;
+}, {
+labels: [],
+series: times(4).map(function() { return new Array() })
+});
 
-  var options = {
-    showLine: false,
-    axisX: {
-      labelInterpolationFnc: function(value, index) {
-        return index % 13 === 0 ? 'W' + value : null;
-      }
-    }
-  };
+var options = {
+showLine: false,
+axisX: {
+labelInterpolationFnc: function(value, index) {
+return index % 13 === 0 ? 'W' + value : null;
+}
+}
+};
 
-  var responsiveOptions = [
-    ['screen and (min-width: 640px)', {
-      axisX: {
-        labelInterpolationFnc: function(value, index) {
-          return index % 4 === 0 ? 'W' + value : null;
-        }
-      }
-    }]
-  ];
+var responsiveOptions = [
+['screen and (min-width: 640px)', {
+axisX: {
+labelInterpolationFnc: function(value, index) {
+return index % 4 === 0 ? 'W' + value : null;
+}
+}
+}]
+];
 
-  new Chartist.Line('#scatter-diagram', data, options, responsiveOptions);
-
-
-
-  //Line chart with area
-
-  new Chartist.Line('#chart-with-area', {
-    labels: [1, 2, 3, 4, 5, 6, 7, 8],
-    series: [
-      [5, 9, 7, 8, 5, 3, 5, 4]
-    ]
-  }, {
-    low: 0,
-    showArea: true,
-    plugins: [
-      Chartist.plugins.tooltip()
-    ]
-  });
-
-
-  //Overlapping bars on mobile
-
-  var data = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-    series: [
-      [5, 4, 3, 7, 5, 10, 3, 4, 8, 10, 6, 8],
-      [3, 2, 9, 5, 4, 6, 4, 6, 7, 8, 7, 4]
-    ]
-  };
-
-  var options = {
-    seriesBarDistance: 10
-  };
-
-  var responsiveOptions = [
-    ['screen and (max-width: 640px)', {
-      seriesBarDistance: 5,
-      axisX: {
-        labelInterpolationFnc: function (value) {
-          return value[0];
-        }
-      }
-    }]
-  ];
-
-  new Chartist.Bar('#overlapping-bars', data, options, responsiveOptions);
+new Chartist.Line('#scatter-diagram', data, options, responsiveOptions);
 
 
 
+//Line chart with area
 
-  //Stacked bar chart
+new Chartist.Line('#chart-with-area', {
+labels: [1, 2, 3, 4, 5, 6, 7, 8],
+series: [
+[5, 9, 7, 8, 5, 3, 5, 4]
+]
+}, {
+low: 0,
+showArea: true,
+plugins: [
+Chartist.plugins.tooltip()
+]
+});
 
-  new Chartist.Bar('#stacked-bar-chart', {
-    labels: ['Q1', 'Q2', 'Q3', 'Q4', 'Q5', 'Q6'],
-    series: [
-      [800000, 1200000, 1400000, 1300000, 1520000, 1400000],
-      [200000, 400000, 500000, 300000, 452000, 500000],
-      [160000, 290000, 410000, 600000, 588000, 410000]
-    ]
-  }, {
-    stackBars: true,
-    axisY: {
-      labelInterpolationFnc: function(value) {
-        return (value / 1000) + 'k';
-      }
-    },
-    plugins: [
-      Chartist.plugins.tooltip()
-    ]
-  }).on('draw', function(data) {
-    if(data.type === 'bar') {
-      data.element.attr({
-        style: 'stroke-width: 30px'
-      });
-    }
-  });
+
+//Overlapping bars on mobile
+
+var data = {
+labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+series: [
+[5, 4, 3, 7, 5, 10, 3, 4, 8, 10, 6, 8],
+[3, 2, 9, 5, 4, 6, 4, 6, 7, 8, 7, 4]
+]
+};
+
+var options = {
+seriesBarDistance: 10
+};
+
+var responsiveOptions = [
+['screen and (max-width: 640px)', {
+seriesBarDistance: 5,
+axisX: {
+labelInterpolationFnc: function (value) {
+return value[0];
+}
+}
+}]
+];
+
+new Chartist.Bar('#overlapping-bars', data, options, responsiveOptions);
 
 
 
 
+//Stacked bar chart
 
-  //Animating a Donut with Svg.animate
-
-  var chart = new Chartist.Pie('#animating-donut', {
-    series: [10, 20, 50, 20, 5, 50, 15],
-    labels: [1, 2, 3, 4, 5, 6, 7]
-  }, {
-    donut: true,
-    showLabel: false,
-    plugins: [
-      Chartist.plugins.tooltip()
-    ]
-  });
-
-  chart.on('draw', function(data) {
-    if(data.type === 'slice') {
-      // Get the total path length in order to use for dash array animation
-      var pathLength = data.element._node.getTotalLength();
-
-      // Set a dasharray that matches the path length as prerequisite to animate dashoffset
-      data.element.attr({
-        'stroke-dasharray': pathLength + 'px ' + pathLength + 'px'
-      });
-
-      // Create animation definition while also assigning an ID to the animation for later sync usage
-      var animationDefinition = {
-        'stroke-dashoffset': {
-          id: 'anim' + data.index,
-          dur: 1000,
-          from: -pathLength + 'px',
-          to:  '0px',
-          easing: Chartist.Svg.Easing.easeOutQuint,
-          // We need to use `fill: 'freeze'` otherwise our animation will fall back to initial (not visible)
-          fill: 'freeze'
-        }
-      };
-
-      // If this was not the first slice, we need to time the animation so that it uses the end sync event of the previous animation
-      if(data.index !== 0) {
-        animationDefinition['stroke-dashoffset'].begin = 'anim' + (data.index - 1) + '.end';
-      }
-
-      // We need to set an initial value before the animation starts as we are not in guided mode which would do that for us
-      data.element.attr({
-        'stroke-dashoffset': -pathLength + 'px'
-      });
-
-      // We can't use guided mode as the animations need to rely on setting begin manually
-      // See http://gionkunz.github.io/chartist-js/api-documentation.html#chartistsvg-function-animate
-      data.element.animate(animationDefinition, false);
-    }
-  });
-
-  // For the sake of the example we update the chart every time it's created with a delay of 8 seconds
-  chart.on('created', function() {
-    if(window.__anim21278907124) {
-      clearTimeout(window.__anim21278907124);
-      window.__anim21278907124 = null;
-    }
-    window.__anim21278907124 = setTimeout(chart.update.bind(chart), 10000);
-  });
+new Chartist.Bar('#stacked-bar-chart', {
+labels: ['Q1', 'Q2', 'Q3', 'Q4', 'Q5', 'Q6'],
+series: [
+[800000, 1200000, 1400000, 1300000, 1520000, 1400000],
+[200000, 400000, 500000, 300000, 452000, 500000],
+[160000, 290000, 410000, 600000, 588000, 410000]
+]
+}, {
+stackBars: true,
+axisY: {
+labelInterpolationFnc: function(value) {
+return (value / 1000) + 'k';
+}
+},
+plugins: [
+Chartist.plugins.tooltip()
+]
+}).on('draw', function(data) {
+if(data.type === 'bar') {
+data.element.attr({
+style: 'stroke-width: 30px'
+});
+}
+});
 
 
 
 
-  //Simple pie chart
 
-  var data = {
-    series: [5, 3, 4]
-  };
+//Animating a Donut with Svg.animate
 
-  var sum = function(a, b) { return a + b };
+var chart = new Chartist.Pie('#animating-donut', {
+series: [10, 20, 50, 20, 5, 50, 15],
+labels: [1, 2, 3, 4, 5, 6, 7]
+}, {
+donut: true,
+showLabel: false,
+plugins: [
+Chartist.plugins.tooltip()
+]
+});
 
-  new Chartist.Pie('#simple-pie', data, {
-    labelInterpolationFnc: function(value) {
-      return Math.round(value / data.series.reduce(sum) * 100) + '%';
-    }
-  });
+chart.on('draw', function(data) {
+if(data.type === 'slice') {
+// Get the total path length in order to use for dash array animation
+var pathLength = data.element._node.getTotalLength();
+
+// Set a dasharray that matches the path length as prerequisite to animate dashoffset
+data.element.attr({
+'stroke-dasharray': pathLength + 'px ' + pathLength + 'px'
+});
+
+// Create animation definition while also assigning an ID to the animation for later sync usage
+var animationDefinition = {
+'stroke-dashoffset': {
+id: 'anim' + data.index,
+dur: 1000,
+from: -pathLength + 'px',
+to: '0px',
+easing: Chartist.Svg.Easing.easeOutQuint,
+// We need to use `fill: 'freeze'` otherwise our animation will fall back to initial (not visible)
+fill: 'freeze'
+}
+};
+
+// If this was not the first slice, we need to time the animation so that it uses the end sync event of the previous
+animation
+if(data.index !== 0) {
+animationDefinition['stroke-dashoffset'].begin = 'anim' + (data.index - 1) + '.end';
+}
+
+// We need to set an initial value before the animation starts as we are not in guided mode which would do that for us
+data.element.attr({
+'stroke-dashoffset': -pathLength + 'px'
+});
+
+// We can't use guided mode as the animations need to rely on setting begin manually
+// See http://gionkunz.github.io/chartist-js/api-documentation.html#chartistsvg-function-animate
+data.element.animate(animationDefinition, false);
+}
+});
+
+// For the sake of the example we update the chart every time it's created with a delay of 8 seconds
+chart.on('created', function() {
+if(window.__anim21278907124) {
+clearTimeout(window.__anim21278907124);
+window.__anim21278907124 = null;
+}
+window.__anim21278907124 = setTimeout(chart.update.bind(chart), 10000);
+});
 
 
-  </script> --}}
+
+
+//Simple pie chart
+
+var data = {
+series: [5, 3, 4]
+};
+
+var sum = function(a, b) { return a + b };
+
+new Chartist.Pie('#simple-pie', data, {
+labelInterpolationFnc: function(value) {
+return Math.round(value / data.series.reduce(sum) * 100) + '%';
+}
+});
+
+
+</script> --}}
 @endsection

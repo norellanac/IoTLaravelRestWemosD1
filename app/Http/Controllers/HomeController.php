@@ -36,7 +36,7 @@ class HomeController extends Controller
             $user->syncRoles(['User']);
         }
       }
-      $records=Record::where('user_id','=', auth()->user()->id)->orderBy('id', 'desc')->limit(1)->get();
+      $records=Record::where('user_id','=', auth()->user()->id)->orderBy('id', 'desc')->limit(1)->with('deviceInfo')->get();
       $charts=Record::where('user_id','=', auth()->user()->id)->orderBy('id', 'desc')->limit(25)->get();
       //dd($charts);
       $devices = DB::table('records')->where('user_id','=', auth()->user()->id)->distinct()->get('device');
@@ -53,7 +53,7 @@ class HomeController extends Controller
     {
         //
         //dd(auth()->user()->id);
-        $records=Record::where('user_id','=', auth()->user()->id )->where('device', '=', $request->code)->orderBy('created_at', 'desc')->limit(1)->get();
+        $records=Record::where('user_id','=', auth()->user()->id )->where('device', '=', $request->code)->orderBy('created_at', 'desc')->limit(1)->with('deviceInfo')->get();
         //$last=Record::where('id','>', 0)->orderBy('created_at', 'desc')->limit(1)->get();
         //dd($records);
         $charts=Record::where('user_id','=', auth()->user()->id)->where('device', '=', $request->code)->orderBy('id', 'desc')->limit(20)->get();
