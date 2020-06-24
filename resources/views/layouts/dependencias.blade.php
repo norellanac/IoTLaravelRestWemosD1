@@ -8,7 +8,7 @@
    <title>IoT 10x Informatica</title>
    <meta content="Admin Dashboard" name="description" />
    <meta content="Themesbrand" name="author" />
-   <link rel="shortcut icon" href="{{ asset('https://image.flaticon.com/icons/svg/2016/2016736.svg')}}">
+   <link rel="shortcut icon" href="{{ asset('imgs/icons/iot.svg')}}">
 
    <link href="{{ asset('assets/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css">
    <link href="{{ asset('assets/css/metismenu.min.css')}}" rel="stylesheet" type="text/css">
@@ -29,7 +29,8 @@
 
    <div class="m-t-40 text-center">
        <p class="text-white-50">No tiene una Cuenta? <a href="{{url('register')}}" class="text-white"> Registrate Ahora </a> | <a href="{{url('login')}}" class="text-white">   ingresa a tu cuenta</a> </p>
-       <p class="text-muted">© 2019  Creado Por<i class="mdi mdi-heart text-danger"></i> 10x Informatica</p>
+   <p class="text-muted">© 2020 Derechos Reservados <a href="{{url('http://tenxprotocol.com')}}"> <img src="{{ asset('imgs/tenex-informatica.png') }}" alt="" height="20px"> </a></p>
+   <p class="text-muted">Desarollado por <a href="{{url('https://www.facebook.com/alexis.orellana2')}}"> Nery Orellana </a></p>
    </div>
 
 </div>

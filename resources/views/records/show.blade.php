@@ -28,8 +28,7 @@
                       <div class="row">
 
                         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 mt-3">
-
-                          <p class="h2"> {{$records->first()->deviceInfo->location}}  </p>
+                          <p class="h5">Ubicación:  {{$records->first()->deviceInfo->location}}  </p>
                           <div class="offset-1  progress progress-bar-animated m-b-10 " style="height: 5em;">
                             <div class="progress-bar progress-bar-striped  progress-bar-animated bg-success text-center" role="progressbar" style='width: {{round(($records->first()->number3 -2.7 ) * 59)}}%;' aria-valuemin="0" aria-valuemax="100"><h3 class="">{{round(($records->first()->number3 -2.7 ) * 59) }}% <i class="mdi mdi-battery-charging"></i></h3>  </div>
                           </div>
@@ -39,11 +38,11 @@
                         </div>
                         <div class=" col-xs-12 col-sm-12 col-md-4 col-lg-4 mt-3">
                           <p class="h2"> {{$records->first()->string1}} <br> <span class="badge badge-primary">{{$records->first()->number1}} %</span></p>
-                          <img src="https://image.flaticon.com/icons/svg/1809/1809570.svg" class="mx-auto d-block" width="30%">
+                          <img src="{{ asset('imgs/icons/humedad.svg')}}" class="mx-auto d-block" width="30%">
                         </div>
                         <div class=" col-xs-12 col-sm-12 col-md-4 col-lg-4 mt-3">
                           <p class="h2"> {{$records->first()->string2}} <br> <span class="badge badge-danger">{{$records->first()->number2}} C°</span></p>
-                          <img src="https://image.flaticon.com/icons/svg/1113/1113779.svg" class="mx-auto d-block" width="30%">
+                          <img src="{{ asset('imgs/icons/temperatura.svg')}}" class="mx-auto d-block" width="30%">
                         </div>
                       </div>
 
@@ -72,9 +71,9 @@
                   <p class="text-muted">Deactivated</p>
                 </li>
               </ul> --}}
-
-              <div id="simple-line-chart1" class="ct-chart ct-golden-section"></div>
-
+              <div class="d-sm-none d-md-block">
+                <div id="simple-line-chart1" class="ct-chart ct-golden-section"></div>
+              </div>
             </div>
           </div>
       @else
@@ -94,11 +93,11 @@
               </div>
               <div class=" col-xs-12 col-sm-12 col-md-4 col-lg-4 mt-3">
                 <p class="h2"> Humedad <br> <span class="badge badge-primary">0 %</span></p>
-                <img src="https://image.flaticon.com/icons/svg/1809/1809570.svg" class="mx-auto d-block" width="30%">
+                <img src="{{ asset('imgs/icons/humedad.svg')}}" class="mx-auto d-block" width="30%">
               </div>
               <div class=" col-xs-12 col-sm-12 col-md-4 col-lg-4 mt-3">
                 <p class="h2"> Temperatura <br> <span class="badge badge-danger">0 C°</span></p>
-                <img src="https://image.flaticon.com/icons/svg/1113/1113779.svg" class="mx-auto d-block" width="30%">
+                <img src="{{ asset('imgs/icons/temperatura.svg')}}" class="mx-auto d-block" width="30%">
               </div>
             </div>
             <div class="slider ">

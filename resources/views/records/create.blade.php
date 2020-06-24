@@ -28,7 +28,7 @@
                 </div>
                 <div class="slider ">
                   {{--                     <div id="container" style="min-width: 100%; max-width: 100%; height: 300px; margin: 0 auto"></div>--}}
-                  <img src="https://image.flaticon.com/icons/svg/1113/1113779.svg" class="mx-auto d-block" width="50%">
+                  <img src="{{ asset('imgs/icons/temperatura.svg') }}" class="mx-auto d-block" width="50%">
                 </div>
 
                 <form action="{{url('/tracking')}}" method="POST">
@@ -48,7 +48,7 @@
                   {{$record->created_at->modify('-6 hours')->format('d F, y H:i')}}
                 </div>
                 <div class="slider">
-                  <img src="https://image.flaticon.com/icons/svg/1809/1809570.svg" class="mx-auto d-block" width="50%">
+                  <img src="{{ asset('imgs/icons/humedad.svg') }}" class="mx-auto d-block" width="50%">
                 </div>
               </div>
             </div>

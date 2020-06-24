@@ -22,7 +22,7 @@
           <div class="card-body">
 
             <h3 class="text-center m-0">
-              <a href="index.html" class="logo logo-admin"><img src="https://image.flaticon.com/icons/png/512/1289/1289440.png" height="30" alt="logo"></a>
+              <a href="index.html" class="logo logo-admin"><img src="{{ asset('imgs/icons/iot.svg')}}" height="30" alt="logo"></a>
             </h3>
 
             <div class="p-3">

@@ -8,7 +8,7 @@
         <title>@yield('title')</title>
         <meta content="Admin Dashboard" name="description" />
         <meta content="Themesbrand" name="author" />
-        <link rel="shortcut icon" href="https://image.flaticon.com/icons/svg/2016/2016736.svg">
+        <link rel="shortcut icon" href="{{ asset('imgs/icons/iot.svg')}}">
 
         <link href="{{ asset('assets/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css">
         <link href="{{ asset('assets/css/metismenu.min.css')}}" rel="stylesheet" type="text/css">

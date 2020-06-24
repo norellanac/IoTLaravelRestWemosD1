@@ -3,14 +3,12 @@
 @section('content')
   <div class="container">
     <div class="card-body">
-
       <h3 class="text-center m-0">
-        <a href="index.html" class="logo logo-admin"><img src="https://image.flaticon.com/icons/svg/2016/2016736.svg" height="30" alt="logo"></a>
+      <a href="{{url('/')}}" class="logo logo-admin"><img src="{{ asset('imgs/icons/iot.svg')}}" height="30" alt="logo"></a>
         IOT
       </h3>
 
-      <div class="p-3">
-        <h4 class="text-muted font-18 m-b-5 text-center">Bienvenido!</h4>
+      <div class="">
         <p class="text-muted text-center">Inicie Sesion para Continuar</p>
 
         <form method="POST" class="form-horizontal m-t-30" action="{{url('/login')}}">
@@ -40,14 +38,14 @@
                 <div class="col-6">
                   <div class="custom-control custom-checkbox">
                     <input type="checkbox" class="custom-control-input" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                    <label class="custom-control-label" for="remember">Remember me</label>
+                    <label class="custom-control-label" for="remember">Mantener Sesion</label>
                   </div>
                 </div>
                 <div class="col-6 text-right">
-                  <button class="btn btn-primary w-md waves-effect waves-light" type="submit">Log In</button>
+                  <button class="btn btn-primary w-md waves-effect waves-light" type="submit">Ingresar</button>
                 </div>
               </div>
-              <div class="form-group m-t-10 mb-0 row">
+              <div class="form-group mt-3 mb-0 row">
                 <div class="col-12 m-t-20">
                   <a href="pages-recoverpw.html" class="text-muted"><i class="mdi mdi-lock"></i> @if (Route::has('password.request'))
                     <a class="btn btn-link" href="{{ route('password.request') }}">
@@ -60,10 +58,6 @@
           </div>
 
         </div>
-      </div>
-      <div class="m-t-40 text-center">
-          <p class="text-white-50">No tiene una Cuenta? <a href="" class="text-white"> Registrate Ahora </a> </p>
-          <p class="text-muted">© 2019. Creado Por<i class="mdi mdi-heart text-danger"></i> 10x Informatica</p>
       </div>
 
     @endsection
