@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class RegisterController extends Controller
 {
@@ -63,10 +65,16 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $users = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'role_id' => 1,
             'password' => Hash::make($data['password']),
         ]);
+        
+        //fincion que remueve roles asignados previamente y agrega el rol indicado
+        $users->syncRoles(['User']);
+        
+        return $users;
     }
 }

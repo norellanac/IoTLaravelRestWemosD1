@@ -7,12 +7,16 @@
 </li>
 <li>
   <a href="javascript:void(0);" class="waves-effect">
-    <i class="fas fa-file-alt"></i>
-    <span>Reportes
-      <span class="float-right menu-arrow">
-        <i class="mdi mdi-plus"></i>
-      </span>
-    </span>
+      <i class="typcn typcn-group"></i><span>Usuarios <span class="float-right menu-arrow"><i class="mdi mdi-plus"></i></span></span>
+  </a>
+  <ul class="submenu">
+      <li><a href="{{ url('users') }}">Ver</a></li>
+      <li><a href="{{ url('users/create') }}">Agregar</a></li>
+  </ul>
+</li>
+<li>
+  <a href="javascript:void(0);" class="waves-effect">
+    <i class="ion-pie-graph"></i><span>Reportes <span class="float-right menu-arrow"><i class="mdi mdi-plus"></i></span></span>
   </a>
   <ul class="submenu">
     <li><a href="{{url('/records/')}}"> Ultimos registros </i></a></li>
@@ -21,12 +25,7 @@
 </li>
 <li>
   <a href="javascript:void(0);" class="waves-effect">
-    <i class="fas fa-file-alt"></i>
-    <span>Dispositivos
-      <span class="float-right menu-arrow">
-        <i class="mdi mdi-plus"></i>
-      </span>
-    </span>
+    <i class="fas fa-laptop"></i><span>Dispositivos <span class="float-right menu-arrow"><i class="mdi mdi-plus"></i></span></span>
   </a>
   <ul class="submenu">
     <li><a href="{{url('/device/')}}"> Ver</i></a></li>

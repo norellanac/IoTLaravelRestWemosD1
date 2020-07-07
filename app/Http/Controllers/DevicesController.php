@@ -47,7 +47,7 @@ class DevicesController extends Controller
         $device->description=$request->description;
         $device->location=$request->location;
         $device->custom_id=$request->custom_id;
-        $device->user_id=auth()->user()->id;
+        $device->user_id=$request->user_id;
         $device->save();
         if ($request->custom_id==null) {
           $device->custom_id=$device->id;
@@ -99,6 +99,7 @@ class DevicesController extends Controller
             $device->name=$request->name;
             $device->description=$request->description;
             $device->location=$request->location;
+            $device->user_id=$request->user_id;
             $device->save();
             return redirect('device');
         }

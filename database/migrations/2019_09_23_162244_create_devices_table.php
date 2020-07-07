@@ -13,6 +13,19 @@ class CreateDevicesTable extends Migration
      */
     public function up()
     {
+      Schema::create('users', function (Blueprint $table) {
+        $table->bigIncrements('id');
+        $table->string('name');
+        $table->string('email')->unique();
+        $table->unsignedInteger('role_id');
+        $table->foreign('role_id')
+              ->references('id')->on('roles');
+        $table->timestamp('email_verified_at')->nullable();
+        $table->string('password');
+        $table->rememberToken();
+        $table->timestamps();
+      });
+
       Schema::create('devices', function (Blueprint $table) {
           $table->bigIncrements('id');
           $table->string('name');
@@ -24,6 +37,21 @@ class CreateDevicesTable extends Migration
           $table->foreign('user_id')
                 ->references('id')->on('users');
       });
+
+      Schema::create('records', function (Blueprint $table) {
+        $table->bigIncrements('id');
+        $table->string('string1')->nullable();
+        $table->string('string2')->nullable();
+        $table->string('string3')->nullable();
+        $table->double('number1', 8, 2)->nullable();
+        $table->double('number2', 8, 2)->nullable();
+        $table->double('number3', 8, 2)->nullable();
+        $table->integer('device');
+        $table->unsignedBigInteger('user_id');
+        $table->timestamps();
+        $table->foreign('user_id')
+              ->references('id')->on('users');
+     });
     }
 
     /**
@@ -33,7 +61,9 @@ class CreateDevicesTable extends Migration
      */
      public function down()
      {
-         Schema::dropIfExists('devices');
+        Schema::dropIfExists('users');
+        Schema::dropIfExists('devices');
+        Schema::dropIfExists('records');
      }
 }
 
