@@ -1,63 +1,70 @@
 @extends('layouts.admin')
 
 @section('content')
-  @section('tittleSite','IoT 10x Informatica')
-  @section('page_description','Detalle de dispositivo')
-  <style type="text/css">
-
+@section('tittleSite','IoT 10x Informatica')
+@section('page_description','Detalle de dispositivo')
+<style type="text/css">
   .shop-card {
     background: #f5f5f5;
-    box-shadow: 0 10px 20px rgba(0,0,0,.3);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, .3);
     overflow: hidden;
     border-radius: 10px;
     padding: 25px;
     text-align: center;
   }
+</style>
+<meta http-equiv="refresh" content="300" />
+<div class="page-content-wrapper">
+  <div class="row">
+    <div class="col-12">
+      <div class="card m-b-20">
+        <div class="card-body">
+          <div class="row">
+            @if(sizeof( $records)>0)
+            @php
+            $location=$records->first()->deviceInfo->location;
+            @endphp
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mt-3">
+              <div class="shop-card">
+                <div class="row">
 
-  </style>
-  <meta http-equiv="refresh" content="300"/>
-  <div class="page-content-wrapper">
-    <div class="row">
-      <div class="col-12">
-        <div class="card m-b-20">
-          <div class="card-body">
-            <div class="row">
-              @if(sizeof( $records)>0)
-                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mt-3">
-                    <div class="shop-card">
-                      <div class="row">
-
-                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 mt-3">
-                          <p class="h5">Ubicación:  {{$records->first()->deviceInfo->location}}  </p>
-                          <div class="offset-1  progress progress-bar-animated m-b-10 " style="height: 5em;">
-                            <div class="progress-bar progress-bar-striped  progress-bar-animated bg-success text-center" role="progressbar" style='width: {{round(($records->first()->number3 -2.7 ) * 59)}}%;' aria-valuemin="0" aria-valuemax="100"><h3 class="">{{round(($records->first()->number3 -2.7 ) * 59) }}% <i class="mdi mdi-battery-charging"></i></h3>  </div>
-                          </div>
-                          <div class="desc mt-5">
-                            Ultima lectura: {{$records->first()->created_at->modify('-6 hours')->format('d F, y H:i')}}
-                          </div>
-                        </div>
-                        <div class=" col-xs-12 col-sm-12 col-md-4 col-lg-4 mt-3">
-                          <p class="h2"> {{$records->first()->string1}} <br> <span class="badge badge-primary">{{$records->first()->number1}} %</span></p>
-                          <img src="{{ asset('imgs/icons/humedad.svg')}}" class="mx-auto d-block" width="30%">
-                        </div>
-                        <div class=" col-xs-12 col-sm-12 col-md-4 col-lg-4 mt-3">
-                          <p class="h2"> {{$records->first()->string2}} <br> <span class="badge badge-danger">{{$records->first()->number2}} C°</span></p>
-                          <img src="{{ asset('imgs/icons/temperatura.svg')}}" class="mx-auto d-block" width="30%">
-                        </div>
+                  <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 mt-3">
+                    <p class="h5">Ubicación: {{$records->first()->deviceInfo->location}} </p>
+                    <div class="offset-1  progress progress-bar-animated m-b-10 " style="height: 5em;">
+                      <div class="progress-bar progress-bar-striped  progress-bar-animated bg-{{$records->first()->battery()['class']}} text-center"
+                        role="progressbar" style='width: {{$records->first()->battery()['Value']}}%;' aria-valuemin="0"
+                        aria-valuemax="100">
+                        <h3 class="">{{$records->first()->battery()['Value']}}% <i class="mdi mdi-battery-charging"></i></h3>
                       </div>
-
-                      <form action="{{url('/tracking')}}" method="POST" >
-                        @csrf
-                        <input type="hidden" class="btn btn-block btn-lg btn-warning" value="Por enviar">
-                        <input type="hidden" name="status_del" value="2">
-                        <input type="hidden" name="selct" value="3">
-                      </form>
                     </div>
-                    <div class="card-body mt-5">
+                    <div class="desc mt-5">
+                      Ultima lectura: {{$records->first()->created_at->modify('-6 hours')->format('d F, y H:i')}}
+                    </div>
+                  </div>
+                  <div class=" col-xs-12 col-sm-12 col-md-4 col-lg-4 mt-3">
+                    <p class="h2"> {{$records->first()->string1}} <br> <span
+                        class="badge badge-primary">{{$records->first()->number1}} %</span></p>
+                    <img src="{{ asset('imgs/icons/humedad.svg')}}" class="mx-auto d-block" width="30%">
+                  </div>
+                  <div class=" col-xs-12 col-sm-12 col-md-4 col-lg-4 mt-3">
+                    <p class="h2"> {{$records->first()->string2}} <br> <span
+                        class="badge badge-danger">{{$records->first()->number2}} C°</span></p>
+                    <img src="{{ asset('imgs/icons/temperatura.svg')}}" class="mx-auto d-block" width="30%">
+                  </div>
+                </div>
 
-                      <h4 class="mt-0 header-title">Ultimas lecturas</h4>
+                <form action="{{url('/tracking')}}" method="POST">
+                  @csrf
+                  <input type="hidden" class="btn btn-block btn-lg btn-warning" value="Por enviar">
+                  <input type="hidden" name="status_del" value="2">
+                  <input type="hidden" name="selct" value="3">
+                </form>
+              </div>
+              <div class="card-body mt-5">
 
-                      {{-- <ul class="list-inline widget-chart m-t-20 m-b-15 text-center">
+                <h4 class="mt-0 header-title">Ultimas lecturas</h4>
+
+                {{-- <ul class="list-inline widget-chart m-t-20 m-b-15 text-center">
                       <li class="list-inline-item">
                       <h5 class="mb-0">44242</h5>
                       <p class="text-muted">Activated</p>
@@ -71,91 +78,96 @@
                   <p class="text-muted">Deactivated</p>
                 </li>
               </ul> --}}
-              <div class="d-sm-none d-md-block">
-                <div id="simple-line-chart1" class="ct-chart ct-golden-section"></div>
-              </div>
-            </div>
-          </div>
-      @else
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mt-3">
-          <div class="shop-card">
-            <div class="row">
-
-              <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 mt-3">
-
-                <p class="h2"> Dispositivo <span class="badge badge-danger mb-2">No se encontró el dispositivo </span></p>
-                <div class="progress progress-bar-animated m-b-10 " style="height: 5em;">
-                  <div class="progress-bar progress-bar-striped  progress-bar-animated bg-success text-center" role="progressbar" style='width: {{100}}%;' aria-valuemin="0" aria-valuemax="100"><h3 class="">100% <i class="mdi mdi-battery-charging"></i></h3>  </div>
-                </div>
-                <div class="desc mt-5">
-                  Ultima lectura: Sin información
+                <div class="d-sm-none d-md-block">
+                  <div id="simple-line-chart1" class="ct-chart ct-golden-section"></div>
                 </div>
               </div>
-              <div class=" col-xs-12 col-sm-12 col-md-4 col-lg-4 mt-3">
-                <p class="h2"> Humedad <br> <span class="badge badge-primary">0 %</span></p>
-                <img src="{{ asset('imgs/icons/humedad.svg')}}" class="mx-auto d-block" width="30%">
-              </div>
-              <div class=" col-xs-12 col-sm-12 col-md-4 col-lg-4 mt-3">
-                <p class="h2"> Temperatura <br> <span class="badge badge-danger">0 C°</span></p>
-                <img src="{{ asset('imgs/icons/temperatura.svg')}}" class="mx-auto d-block" width="30%">
+            </div>
+            @else
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mt-3">
+              <div class="shop-card">
+                <div class="row">
+
+                  <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 mt-3">
+
+                    <p class="h2"> Dispositivo <span class="badge badge-danger mb-2">No se encontró el dispositivo
+                      </span></p>
+                    <div class="progress progress-bar-animated m-b-10 " style="height: 5em;">
+                      <div class="progress-bar progress-bar-striped  progress-bar-animated bg-success text-center"
+                        role="progressbar" style='width: {{100}}%;' aria-valuemin="0" aria-valuemax="100">
+                        <h3 class="">100% <i class="mdi mdi-battery-charging"></i></h3>
+                      </div>
+                    </div>
+                    <div class="desc mt-5">
+                      Ultima lectura: Sin información
+                    </div>
+                  </div>
+                  <div class=" col-xs-12 col-sm-12 col-md-4 col-lg-4 mt-3">
+                    <p class="h2"> Humedad <br> <span class="badge badge-primary">0 %</span></p>
+                    <img src="{{ asset('imgs/icons/humedad.svg')}}" class="mx-auto d-block" width="30%">
+                  </div>
+                  <div class=" col-xs-12 col-sm-12 col-md-4 col-lg-4 mt-3">
+                    <p class="h2"> Temperatura <br> <span class="badge badge-danger">0 C°</span></p>
+                    <img src="{{ asset('imgs/icons/temperatura.svg')}}" class="mx-auto d-block" width="30%">
+                  </div>
+                </div>
+                <div class="slider ">
+
+                </div>
+
+                <form action="{{url('/tracking')}}" method="POST">
+                  @csrf
+                  <input type="hidden" class="btn btn-block btn-lg btn-warning" value="Por enviar">
+                  <input type="hidden" name="status_del" value="2">
+                  <input type="hidden" name="selct" value="3">
+                </form>
               </div>
             </div>
-            <div class="slider ">
 
-            </div>
+            @endif
 
-            <form action="{{url('/tracking')}}" method="POST" >
-              @csrf
-              <input type="hidden" class="btn btn-block btn-lg btn-warning" value="Por enviar">
-              <input type="hidden" name="status_del" value="2">
-              <input type="hidden" name="selct" value="3">
-            </form>
+
           </div>
         </div>
-
-      @endif
-
-
+        <div id="simple-line-chart1" class="ct-chart ct-golden-section "></div>
+      </div>
+    </div>
+    <div class="col-12" style="margin-top:-600px">
+      <table id="datatable-buttons" class="text-center table table-striped table-bordered dt-responsive nowrap"
+        style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Humedad</th>
+            <th>Temperatura</th>
+            <th>fecha</th>
+            <th>Bateria</th>
+            <th>device</th>
+          </tr>
+        </thead>
+        <tbody>
+          @php
+          $i=1;
+          @endphp
+          @foreach ($records as $record)
+          <tr>
+            <td>{{ $i++ }}</td>
+            <td>{{ $record->number1 }} %</td>
+            <td>{{ $record->number2 }} C°</td>
+            @php $date=new DateTime( $record->created_at) @endphp
+            <td>{{$date->modify('-6 hours')->format('d F -  H:i') }}</td>
+            <td>{{round(($record->number3 -2.7 ) * 59) }}%</td>
+            <td>{{ $location}}</td>
+          </tr>
+          @endforeach
+        </tbody>
+      </table>
     </div>
   </div>
-  <div id="simple-line-chart1" class="ct-chart ct-golden-section "></div>
-</div>
-</div>
-<div class="col-12" style="margin-top:-600px">
-  <table id="datatable-buttons" class="text-center table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Humedad</th>
-        <th>Temperatura</th>
-        <th>fecha</th>
-        <th>Bateria</th>
-        <th>device</th>
-      </tr>
-    </thead>
-    <tbody>
-      @php
-      $i=1;
-      @endphp
-      @foreach ($records as $record)
-        <tr>
-          <td>{{ $i++ }}</td>
-          <td>{{ $record->number1 }} %</td>
-          <td>{{ $record->number2 }} C°</td>
-          @php $date=new DateTime( $record->created_at) @endphp
-          <td>{{$date->modify('-6 hours')->format('d F -  H:i') }}</td>
-          <td>{{round(($record->number3 -2.7 ) * 59) }}%</td>
-          <td>{{ $record->deviceInfo->location}}</td>
-        </tr>
-      @endforeach
-    </tbody>
-  </table>
-</div>
-</div>
 </div>
 @endsection
 @section('sectionJS')
-  <script type="text/javascript">
+<script type="text/javascript">
   var chart = new Chartist.Line('#smil-animations', {
     labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
     series: [
@@ -516,5 +528,5 @@
   });
 
 
-  </script>
+</script>
 @endsection

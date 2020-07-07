@@ -94,7 +94,7 @@
                     <span class="h5"><i class="ion-battery-half  "></i> Batería:</span>
                   </div>
                   <div class="col-3">
-                    <p class="h5"><span class="badge badge-success">{{round(($record->number3 -2.7 ) * 59)}}%</span></p>
+                    <p class="h5"><span class="badge badge-{{$record->battery()['class']}}">{{$record->battery()['Value']}}%</span></p>
                   </div>
                 </div>
                 <div class="row mt-3">
