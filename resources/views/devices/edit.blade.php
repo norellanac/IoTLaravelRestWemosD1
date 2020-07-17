@@ -66,7 +66,7 @@
                         <div class="row">
                           <div class="form-group col-6">
                             <label class="control-label">Usuario o empresa</label>
-                            <select class="form-control select2" name="user_id">
+                            <select name="user_id" class="form-control">
                               <option value="{{$device->user->id}}">{{$device->user->name}}</option>
                               @foreach ($users as $user)
                                 <option value="{{$user->id}}">{{$user->name}}</option>

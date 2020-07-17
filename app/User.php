@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'role_id', 'password',
     ];
 
     /**
@@ -42,4 +42,7 @@ class User extends Authenticatable
     public function devices(){
         return $this->hasMany("App\Device",'user_id');
     }
+    public function role(){
+		return $this->belongsTo("Spatie\Permission\Models\Role",'role_id');
+	}
 }

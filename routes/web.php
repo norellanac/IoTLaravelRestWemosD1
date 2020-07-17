@@ -23,6 +23,7 @@ Route::post('/search', 'HomeController@show')->name('search');
 Route::resource('/records', 'RecordsController')->middleware('auth')->middleware('role:SuperAdmin|Admin|User');
 Route::resource('/device', 'DevicesController')->middleware('auth')->middleware('role:SuperAdmin|Admin|User');
 Route::get('/device/create', 'DevicesController@create')->middleware('auth')->middleware('role:SuperAdmin|Admin');
+Route::resource('/users', 'UserController')->middleware('auth')->middleware('role:SuperAdmin');
 
 Route::post('/reporte/', 'ReportsController@index')->middleware('auth');
 Route::post('/reporte/fechas/', 'ReportsController@fechas')->middleware('auth');
