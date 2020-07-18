@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Device;
 use App\User;
+use DB;
 
 class DevicesController extends Controller
 {
@@ -17,7 +18,11 @@ class DevicesController extends Controller
     public function index()
     {
         //
-        $devices=Device::where('user_id', auth()->user()->id)->get();
+        if (auth()->user()->role_id == 2){
+            $devices=Device::all();
+        }else{
+            $devices=Device::where('user_id', auth()->user()->id)->get();
+        }
         return view('devices.index', ['devices'=>$devices]);
     }
 
@@ -76,7 +81,11 @@ class DevicesController extends Controller
     public function edit($id)
     {
         //
-        $device=Device::where('id', $id)->where('user_id', auth()->user()->id)->get();
+        if (auth()->user()->role_id == 2){
+            $device=Device::where('id', $id)->get();
+        }else{
+            $device=Device::where('id', $id)->where('user_id', auth()->user()->id)->get();
+        }
         if (sizeof($device)>0) {
             $users=User::all();
             return view('devices.edit', ['device'=>$device, 'users'=>$users]);

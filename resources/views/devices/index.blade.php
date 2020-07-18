@@ -21,8 +21,10 @@
                   <th>id</th>
                   <th>Dispositivo</th>
                   <th>Descripcion</th>
-                  <th>Id dispositivo</th>
                   <th>Ubicación</th>
+                  @if (auth()->user()->role_id == 2)
+                    <th>Users</th>
+                  @endif
                   <th>Creado/Actualizado</th>
                   <th>Datos</th>
                   <th>Opciones</th>
@@ -31,11 +33,13 @@
               <tbody>
                 @foreach ($devices as $device)
                   <tr>
-                    <td>{{ $device->id }} </td>
+                    <td>{{ $device->custom_id }} </td>
                     <td>{{ $device->name }} </td>
                     <td>{{ $device->description }} </td>
-                    <td>{{ $device->custom_id }} </td>
                     <td>{{ $device->location }} </td>
+                    @if (auth()->user()->role_id == 2)
+                      <td>{{ $device->user->name }} </td>
+                    @endif
                     <td>{{$device->updated_at->modify('-6 hours')->format('d F -  H:i') }}</td>
                     <td> <a href="{{url('records/'. $device->custom_id)}}" class="btn btn-outline-dark"> Ver Lecturas <i class="mdi mdi-clipboard-outline "></i>   </a> </td>
                     <td> <a href="{{url('device/'. $device->id .'/edit')}}" class="btn btn-outline-primary"> Editar <i class="mdi mdi-square-edit-outline"></i>   </a> </td>

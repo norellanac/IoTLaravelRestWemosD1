@@ -42,6 +42,9 @@ class User extends Authenticatable
     public function devices(){
         return $this->hasMany("App\Device",'user_id');
     }
+    public function user(){
+        return $this->hasMany("App\User",'user_id');
+    }
     public function role(){
 		return $this->belongsTo("Spatie\Permission\Models\Role",'role_id');
 	}
