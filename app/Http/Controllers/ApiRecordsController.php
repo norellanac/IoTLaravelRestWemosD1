@@ -60,7 +60,7 @@ class ApiRecordsController extends Controller
           $request->string1="Humedad";
           $request->string2=$request->num1 . " %";
           Mail::to([$user->email])
-          ->cc(['1005alexis@gmail.com','pispache@10x.org','bgil@10x.org']) // enviar correo con copia
+          ->cc(['pispache@10x.org', 'bgil@10x.org', 'drodas@10x.org', 'vbala@10x.org', 'mprado@neoethicals.com']) // enviar correo con copia
           ->send(new AlertMail($request)); //envia la variables $request a la clase de
         }
         //envia notificacion si la temperatura es alta
@@ -68,7 +68,7 @@ class ApiRecordsController extends Controller
           $request->string1="Temperatura";
           $request->string2=$request->num2 ." C°";
           Mail::to([$user->email])
-          ->cc(['1005alexis@gmail.com','pispache@10x.org','bgil@10x.org']) // enviar correo con copia
+          ->cc(['pispache@10x.org', 'bgil@10x.org', 'drodas@10x.org', 'vbala@10x.org', 'mprado@neoethicals.com']) // enviar correo con copia
           ->send(new AlertMail($request)); //envia la variables $request a la clase de
         }
         //envia notificacion si la bateria es baja
@@ -77,7 +77,7 @@ class ApiRecordsController extends Controller
           $request->string2=round(($request->num3 -2.7 ) * 59) ."% en el dispositivo: " . $request->device;
           $request->number1=65;
           Mail::to([$user->email])
-          ->cc(['1005alexis@gmail.com','pispache@10x.org','bgil@10x.org']) // enviar correo con copia
+          ->cc(['pispache@10x.org', 'bgil@10x.org', 'drodas@10x.org', 'vbala@10x.org', 'mprado@neoethicals.com']) // enviar correo con copia
           ->send(new AlertMail($request)); //envia la variables $request a la clase de
         }
 
