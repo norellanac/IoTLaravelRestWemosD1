@@ -1,8 +1,11 @@
 <?php
 
 namespace App\Console\Commands;
-
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\AlertMail;
+use DB;
 
 class email extends Command
 {
@@ -11,14 +14,14 @@ class email extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'email:update';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'alert email record';
 
     /**
      * Create a new command instance.
@@ -37,6 +40,38 @@ class email extends Command
      */
     public function handle()
     {
-        //
+        $requests = DB::select('SELECT * FROM records ORDER by id DESC LIMIT 6');
+
+        foreach($requests As $request){
+            $user = DB::selectone('SELECT * FROM users where id=?', [$request->user_id]);
+
+            $data = new Request(["string1" => $request->string1, "string2" => $request->string2]);
+
+            if ($request->number1>=70) {
+                $request->string1="Humedad";
+                $request->string2=$request->number1 . " %";
+                Mail::to([$user->email])
+                ->cc('pispache@10x.org', 'bgil@10x.org', 'drodas@10x.org', 'vbala@10x.org', 'mprado@neoethicals.com') // enviar correo con copia
+                ->send(new AlertMail($data)); //envia la variables $request a la clase de
+              }
+              //envia notificacion si la temperatura es alta
+              if ($request->number2>=28) {
+                $request->string1="Temperatura";
+                $request->string2=$request->number2 ." C°";
+                Mail::to([$user->email])
+                ->cc('pispache@10x.org', 'bgil@10x.org', 'drodas@10x.org', 'vbala@10x.org', 'mprado@neoethicals.com') // enviar correo con copia
+                ->send(new AlertMail($data)); //envia la variables $request a la clase de
+              }
+              //envia notificacion si la bateria es baja
+              if ($request->number3<=3.1) {
+                $request->string1="Bateria";
+                $request->string2=round(($request->number3 -2.7 ) * 59) ."% en el dispositivo: " . $request->device;
+                $request->number1=65;
+                Mail::to([$user->email])
+                ->cc('pispache@10x.org', 'bgil@10x.org', 'drodas@10x.org', 'vbala@10x.org', 'mprado@neoethicals.com') // enviar correo con copia
+                ->send(new AlertMail($data)); //envia la variables $request a la clase de
+              }
+        }
+        $this->info('Se proceso con exito');
     }
 }
