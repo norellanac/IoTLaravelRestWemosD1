@@ -30,7 +30,7 @@
    <div class="m-t-40 text-center">
        <p class="text-white-50">No tiene una Cuenta? <a href="{{url('register')}}" class="text-white"> Registrate Ahora </a> | <a href="{{url('login')}}" class="text-white">   ingresa a tu cuenta</a> </p>
    <p class="text-muted">© 2020 Derechos Reservados <a href="{{url('http://tenxprotocol.com')}}"> <img src="{{ asset('imgs/tenex-informatica.png') }}" alt="" height="20px"> </a></p>
-   <p class="text-muted">Desarollado por <a href="{{url('https://www.facebook.com/alexis.orellana2')}}"> Nery Orellana </a></p>
+   <p class="text-muted">Desarollado por <a href="{{url('http://10x.org/')}}"> 10X Informatica </a></p>
    </div>
 
 </div>
