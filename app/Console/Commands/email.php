@@ -52,13 +52,13 @@ class email extends Command
           ->send(new AlertMail($data)); //envia la variables $request a la clase de
         }
 
-        $requests = DB::select('SELECT * FROM records ORDER by id DESC LIMIT 6');
+        $requests = DB::select('SELECT * FROM records ORDER by id DESC LIMIT 5');
 
         foreach($requests As $request){
           $user = DB::selectone('SELECT * FROM users where id=?', [$request->user_id]);
           if ($request->number1>=70) {
             $request->string1="Humedad";
-            $request->string2=$request->number1 . " % en el dispositivo: " . $request->device;
+            $request->string2=$request->number1 . " %  dispositivo: " . $request->device;
             $data = new Request(["string1" => $request->string1, "string2" => $request->string2]);
             Mail::to([$user->email])
             ->cc(['pispache@10x.org', 'bgil@10x.org', 'drodas@10x.org', 'vbala@10x.org', 'mprado@neoethicals.com']) // enviar correo con copia
@@ -67,7 +67,7 @@ class email extends Command
           //envia notificacion si la temperatura es alta
           if ($request->number2>=28) {
             $request->string1="Temperatura";
-            $request->string2=$request->number2 ." C° en el dispositivo: " . $request->device;
+            $request->string2=$request->number2 ." C°  dispositivo: " . $request->device;
             $data = new Request(["string1" => $request->string1, "string2" => $request->string2]);
             Mail::to([$user->email])
             ->cc(['pispache@10x.org', 'bgil@10x.org', 'drodas@10x.org', 'vbala@10x.org', 'mprado@neoethicals.com']) // enviar correo con copia
@@ -76,7 +76,7 @@ class email extends Command
           //envia notificacion si la bateria es baja
           if ($request->number3<=3.1) {
             $request->string1="Bateria";
-            $request->string2=round(($request->number3 -2.7 ) * 59) ."% en el dispositivo: " . $request->device;
+            $request->string2=round(($request->number3 -2.7 ) * 59) ."%  dispositivo: " . $request->device;
             $request->number1=65;
             $data = new Request(["string1" => $request->string1, "string2" => $request->string2]);
             Mail::to([$user->email])
