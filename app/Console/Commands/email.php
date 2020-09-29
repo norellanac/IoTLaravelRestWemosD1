@@ -58,7 +58,7 @@ class email extends Command
           $user = DB::selectone('SELECT * FROM users where id=?', [$request->user_id]);
           if ($request->number1>=70) {
             $request->string1="Humedad";
-            $request->string2=$request->number1 . " %";
+            $request->string2=$request->number1 . " % en el dispositivo: " . $request->device;
             $data = new Request(["string1" => $request->string1, "string2" => $request->string2]);
             Mail::to([$user->email])
             ->cc(['pispache@10x.org', 'bgil@10x.org', 'drodas@10x.org', 'vbala@10x.org', 'mprado@neoethicals.com']) // enviar correo con copia
@@ -67,7 +67,7 @@ class email extends Command
           //envia notificacion si la temperatura es alta
           if ($request->number2>=28) {
             $request->string1="Temperatura";
-            $request->string2=$request->number2 ." C°";
+            $request->string2=$request->number2 ." C° en el dispositivo: " . $request->device;
             $data = new Request(["string1" => $request->string1, "string2" => $request->string2]);
             Mail::to([$user->email])
             ->cc(['pispache@10x.org', 'bgil@10x.org', 'drodas@10x.org', 'vbala@10x.org', 'mprado@neoethicals.com']) // enviar correo con copia
