@@ -13,6 +13,46 @@ class CreateDevicesTable extends Migration
      */
     public function up()
     {
+      Schema::create('status_areas', function (Blueprint $table) {
+        $table->bigIncrements('id');
+        $table->string('description', 100);
+        $table->timestamps();
+      });
+
+      Schema::create('status_companies', function (Blueprint $table) {
+        $table->bigIncrements('id');
+        $table->string('description', 100);
+        $table->timestamps();
+      });
+
+      Schema::create('status_users', function (Blueprint $table) {
+        $table->bigIncrements('id');
+        $table->string('description', 100);
+        $table->timestamps();
+      });
+
+      Schema::create('companies', function (Blueprint $table) {
+        $table->bigIncrements('id');
+        $table->string('name');
+        $table->string('email', 100);
+        $table->unsignedBigInteger('status_id');
+        $table->foreign('status_id')
+              ->references('id')->on('status_companies');
+        $table->timestamps();
+      });
+
+      Schema::create('areas', function (Blueprint $table) {
+        $table->bigIncrements('id');
+        $table->string('description', 100);
+        $table->unsignedBigInteger('company_id');
+        $table->foreign('company_id')
+              ->references('id')->on('companies');
+        $table->unsignedBigInteger('status_id');
+        $table->foreign('status_id')
+              ->references('id')->on('status_areas');
+        $table->timestamps();
+      });
+
       Schema::create('users', function (Blueprint $table) {
         $table->bigIncrements('id');
         $table->string('name');
@@ -22,6 +62,15 @@ class CreateDevicesTable extends Migration
               ->references('id')->on('roles');
         $table->timestamp('email_verified_at')->nullable();
         $table->string('password');
+        $table->unsignedBigInteger('area_id')->nullable();
+        $table->foreign('area_id')
+              ->references('id')->on('areas');
+        $table->unsignedBigInteger('company_id')->nullable();
+        $table->foreign('company_id')
+              ->references('id')->on('companies');
+        $table->unsignedBigInteger('status_id')->nullable();
+        $table->foreign('status_id')
+              ->references('id')->on('status_users');
         $table->rememberToken();
         $table->timestamps();
       });
@@ -33,9 +82,9 @@ class CreateDevicesTable extends Migration
           $table->integer('custom_id')->nullable();
           $table->string('location')->nullable();
           $table->timestamps();
-          $table->unsignedBigInteger('user_id');
-          $table->foreign('user_id')
-                ->references('id')->on('users');
+          $table->unsignedBigInteger('area_id');
+          $table->foreign('area_id')
+                ->references('id')->on('areas');
       });
 
       Schema::create('records', function (Blueprint $table) {
@@ -46,11 +95,8 @@ class CreateDevicesTable extends Migration
         $table->double('number1', 8, 2)->nullable();
         $table->double('number2', 8, 2)->nullable();
         $table->double('number3', 8, 2)->nullable();
-        $table->integer('device');
-        $table->unsignedBigInteger('user_id');
+        $table->integer('device_id');
         $table->timestamps();
-        $table->foreign('user_id')
-              ->references('id')->on('users');
      });
     }
 

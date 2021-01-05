@@ -16,6 +16,24 @@
 </li>
 <li>
   <a href="javascript:void(0);" class="waves-effect">
+      <i class="typcn typcn-group"></i><span>Empresas <span class="float-right menu-arrow"><i class="mdi mdi-plus"></i></span></span>
+  </a>
+  <ul class="submenu">
+      <li><a href="{{ url('company') }}">Ver</a></li>
+      <li><a href="{{ url('company/create') }}">Agregar</a></li>
+  </ul>
+</li>
+<li>
+  <a href="javascript:void(0);" class="waves-effect">
+      <i class="typcn typcn-group"></i><span>Area <span class="float-right menu-arrow"><i class="mdi mdi-plus"></i></span></span>
+  </a>
+  <ul class="submenu">
+      <li><a href="{{ url('area') }}">Ver</a></li>
+      <li><a href="{{ url('area/create') }}">Agregar</a></li>
+  </ul>
+</li>
+<li>
+  <a href="javascript:void(0);" class="waves-effect">
     <i class="ion-pie-graph"></i><span>Reportes <span class="float-right menu-arrow"><i class="mdi mdi-plus"></i></span></span>
   </a>
   <ul class="submenu">
@@ -32,9 +50,3 @@
     <li><a href="{{url('/device/create')}}">Crear</a></li>
   </ul>
 </li>
-{{--<li>
-<a href="{{ url('search') }}" class="waves-effect">
-<i class="fas fa-search"></i>
-<span>Buscar</span>
-</a>
-</li>--}}
